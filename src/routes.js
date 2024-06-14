@@ -52,12 +52,12 @@ const routes = [
     path: "/create-users",
     icon: <Icon as={MdPersonAdd} width="20px" height="20px" color="inherit" />,
   },
-  {
-    name: "Create Doctors",
-    layout: "/admin",
-    path: "/create-doctors",
-    icon: <Icon as={MdLocalHospital} width="20px" height="20px" color="inherit" />,
-  },
+  // {
+  //   name: "Create Doctors",
+  //   layout: "/admin",
+  //   path: "/create-doctors",
+  //   icon: <Icon as={MdLocalHospital} width="20px" height="20px" color="inherit" />,
+  // },
   // {
   //   name: "NFT Marketplace",
   //   layout: "/admin",
@@ -134,10 +134,10 @@ const authProtectedRoutes = [
     path: "/admin/create-users",
     component: <CreateUser />,
   },
-  {
-    path: "/admin/create-doctors",
-    component: <CreateDoctor />,
-  },
+  // {
+  //   path: "/admin/create-doctors",
+  //   component: <CreateDoctor />,
+  // },
   {
     path: "/admin/nft-marketplace",
     component: <NFTMarketplace />,

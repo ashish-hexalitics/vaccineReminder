@@ -1,7 +1,7 @@
 import { post } from "../api_helper";
+import { USER_ROUTES } from "../constant";
 
 const loginUser = async (userData) => {
-  //   const { email, password } = userData;
   try {
     const data = await post("/user/login", userData, {
       headers: {
@@ -16,4 +16,14 @@ const loginUser = async (userData) => {
   }
 };
 
-export { loginUser };
+const registerUser = async (data) => {
+  try {
+    const response = await post(`${USER_ROUTES}/register`, { ...data });
+    return response;
+  } catch (error) {
+    console.error("error:", error);
+    return error;
+  }
+};
+
+export { loginUser, registerUser };

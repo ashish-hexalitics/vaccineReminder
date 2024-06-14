@@ -36,5 +36,12 @@ export const formFields = (roles) => {
       type: "password",
       placeholder: "Enter password",
     },
+    // {
+    //   name: "vaccinetemplates",
+    //   label: "Vaccine Templates",
+    //   type: "select",
+    //   placeholder: "Select role",
+    //   options: roles.map((role) => ({ label: role.role_name, value: role.id })),
+    // },
   ];
 };
