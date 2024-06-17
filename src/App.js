@@ -12,6 +12,8 @@ import {
   Authmiddleware,
 } from "./routes";
 import { AppContext } from "./contexts/AppContext";
+import "toastr/build/toastr.min.css"
+
 
 function App() {
   const { fetchUserData } = useContext(AppContext);

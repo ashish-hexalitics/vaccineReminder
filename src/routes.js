@@ -7,7 +7,7 @@ import {
   MdHome,
   MdVaccines,
   MdPersonAdd,
-  MdLocalHospital
+  MdLocalHospital,
 } from "react-icons/md";
 // Admin Imports
 // import MainDashboard from "./views/admin/default";
@@ -58,39 +58,40 @@ const routes = [
   //   path: "/create-doctors",
   //   icon: <Icon as={MdLocalHospital} width="20px" height="20px" color="inherit" />,
   // },
-  // {
-  //   name: "NFT Marketplace",
-  //   layout: "/admin",
-  //   path: "/nft-marketplace",
-  //   icon: (
-  //     <Icon
-  //       as={MdOutlineShoppingCart}
-  //       width="20px"
-  //       height="20px"
-  //       color="inherit"
-  //     />
-  //   ),
-  //   secondary: true,
-  // },
-  // {
-  //   name: "Profile",
-  //   layout: "/admin",
-  //   path: "/profile",
-  //   icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-  // },
-  // {
-  //   name: "Sign In",
-  //   layout: "/auth",
-  //   path: "/sign-in",
-  //   icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-  // },
-  // {
-  //   name: "RTL Admin",
-  //   layout: "/rtl",
-  //   path: "/rtl-default",
-  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-  // },
 ];
+
+// {
+//   name: "NFT Marketplace",
+//   layout: "/admin",
+//   path: "/nft-marketplace",
+//   icon: (
+//     <Icon
+//       as={MdOutlineShoppingCart}
+//       width="20px"
+//       height="20px"
+//       color="inherit"
+//     />
+//   ),
+//   secondary: true,
+// },
+// {
+//   name: "Profile",
+//   layout: "/admin",
+//   path: "/profile",
+//   icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+// },
+// {
+//   name: "Sign In",
+//   layout: "/auth",
+//   path: "/sign-in",
+//   icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+// },
+// {
+//   name: "RTL Admin",
+//   layout: "/rtl",
+//   path: "/rtl-default",
+//   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+// },
 
 const Authmiddleware = (props) => {
   if (!localStorage.getItem("authUser")) {
@@ -104,13 +105,18 @@ const Authmiddleware = (props) => {
 };
 
 const NonAuthLayout = (props) => {
+  const authRole = localStorage.getItem("authRole");
   if (
     localStorage.getItem("authUser") &&
+    authRole &&
     "/logout" !== window.location.pathname
   ) {
     return (
       <Navigate
-        to={{ pathname: "/admin/dashboard", state: { from: props.location } }}
+        to={{
+          pathname: `/${authRole}/dashboard`,
+          state: { from: props.location },
+        }}
       />
     );
   }
@@ -119,7 +125,7 @@ const NonAuthLayout = (props) => {
 
 const authProtectedRoutes = [
   {
-    path: "/admin/dashboard",
+    path: "/:roleName/dashboard",
     component: <AdminDashboard />,
   },
   {

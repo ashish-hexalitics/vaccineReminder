@@ -5,14 +5,14 @@ import Footer from "components/footer/FooterAdmin.js";
 import Navbar from "components/navbar/NavbarAdmin.js";
 import Sidebar from "components/sidebar/Sidebar.js";
 import { SidebarContext } from "contexts/SidebarContext";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Route } from "react-router-dom";
 import { routes } from "../../routes";
 
 import { AppContext } from "../../contexts/AppContext";
 
 // Custom Chakra theme
-export default function Dashboard(props) {
+export default function DashboardLayout(props) {
   const { ...rest } = props;
   // states and functions
   const [fixed] = useState(false);
@@ -94,7 +94,9 @@ export default function Dashboard(props) {
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (
+        ["/Admin", "/Superadmin", "/Doctor", "/Staff"].includes(prop.layout)
+      ) {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -122,11 +124,7 @@ export default function Dashboard(props) {
     <Box>
       <Box>
         <SidebarContext.Provider value={{ toggleSidebar, setToggleSidebar }}>
-          <Sidebar
-            routes={routes}
-            display="none"
-            {...rest}
-          />
+          <Sidebar routes={routes} display="none" {...rest} />
           <Box
             float="right"
             minHeight="100vh"
