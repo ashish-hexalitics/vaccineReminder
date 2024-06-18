@@ -1,13 +1,14 @@
 import {
-  GET_USER_ROLE_FAIL,
+  GET_USER_ROLES,
+  GET_USER_ROLE_API_FAIL,
   GET_USER_ROLE_SUCCESS,
   UPDATE_ROLES_LOADER,
+  RESET_USER_ROLES,
 } from "./actionType";
 
-const signIn = (data) => {
+const userRoles = () => {
   return {
-    type: SIGN_IN,
-    payload: data,
+    type: GET_USER_ROLES,
   };
 };
 
@@ -18,18 +19,30 @@ const userRoleSuccess = (data) => {
   };
 };
 
-const userRoleFail = (error) => {
+const userRoleApiFail = (error) => {
   return {
-    type: GET_USER_ROLE_FAIL,
+    type: GET_USER_ROLE_API_FAIL,
     payload: error,
   };
 };
 
-const updateRoleLoader = (loader) => {
+const updateRolesLoader = (loader) => {
   return {
     type: UPDATE_ROLES_LOADER,
     payload: loader,
   };
 };
 
-export { userRoleSuccess, userRoleFail, updateRoleLoader };
+const resetRolesUser = () => {
+  return {
+    type: RESET_USER_ROLES,
+  };
+};
+
+export {
+  userRoles,
+  userRoleSuccess,
+  userRoleApiFail,
+  updateRolesLoader,
+  resetRolesUser,
+};

@@ -29,10 +29,9 @@ function AppForm({ formFields = [], initialValues = {},handleFormSubmit, formTit
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values) => {
+          onSubmit={(values, actions) => {
             //  e.preventDefault()
-            console.log(validationSchema,values, "validationSchema")
-            handleFormSubmit(values, validationSchema)
+            handleFormSubmit(values, actions)
           }}
         >
           {formik => (

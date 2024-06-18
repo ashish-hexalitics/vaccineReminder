@@ -3,8 +3,11 @@ import React, { useState, useEffect } from "react";
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import DevelopmentTable from "./components/DevelopmentTable";
 import AppLoader from "../../components/AppLoader";
-
-import { getVaccineTemplates } from "../../helpers/api/vaccineTemplateApi";
+import {
+  getVaccineTemplateList,
+  resetVaccineTemplateList,
+} from "../../store/vaccineTemplates/vaccineTemplateAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const columns = [
   {
@@ -40,23 +43,39 @@ const columns = [
 ];
 
 export default function VaccineTemplateList() {
+  const dispatch = useDispatch();
+
+  const { vaccineTemplateReducer } = useSelector((state) => {
+    return {
+      vaccineTemplateReducer: state.vaccineTemplateReducer.vaccineTemplates,
+    };
+  });
+
   const [vaccineTemplates, setVaccineTemplates] = useState([]);
   useEffect(() => {
+    dispatch(resetVaccineTemplateList());
     getdata();
+    return () => {
+      dispatch(resetVaccineTemplateList());
+    };
   }, []);
 
-  const getdata = async () => {
-    const data = await getVaccineTemplates();
-    if (data?.response_data) {
+  useEffect(() => {
+    if (Array.isArray(vaccineTemplateReducer) && vaccineTemplateReducer) {
       setVaccineTemplates(
-        data?.response_data.map((response) => ({
+        vaccineTemplateReducer.map((response) => ({
           ...response,
           is_mandatory: response.is_mandatory ? "Yes" : "No",
           vaccine_frequency: response.vaccine_frequency + " Days",
         }))
       );
     }
+  }, [vaccineTemplateReducer]);
+
+  const getdata = async () => {
+    dispatch(getVaccineTemplateList());
   };
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid

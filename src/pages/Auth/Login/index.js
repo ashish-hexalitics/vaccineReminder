@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -13,26 +13,24 @@ import {
   InputRightElement,
   Text,
   useColorModeValue,
-  useToast,
 } from "@chakra-ui/react";
 import AuthIllustration from "../AuthIllustration";
 import illustration from "../../../assets/img/auth/auth.png";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
-import { loginUser } from "../../../helpers/api/authApi";
-import { AppContext } from "../../../contexts/AppContext";
 import { signIn } from "../../../store/auth/authAction";
+import ForgotPassword from "../ForgotPassword";
 
 const LogIn = () => {
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
   const textColorBrand = useColorModeValue("brand.500", "white");
   const brandStars = useColorModeValue("brand.500", "brand.400");
-  const toast = useToast();
   const [show, setShow] = useState(false);
+  const [showForgetPassword, setShowForgetPassword] = useState(false);
+
   const handleClick = () => setShow(!show);
   const dispatch = useDispatch();
-
 
   const [userData, setUserData] = useState({
     email: "",
@@ -44,29 +42,10 @@ const LogIn = () => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const { setLoggedInUser } = useContext(AppContext);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(userData);
-      // const data = await loginUser(userData);
-      // if (data?.response_data) {
-      //   console.log(data?.response_data);
-      //   localStorage.setItem("authUser", JSON.stringify(data.response_data));
-      //   localStorage.setItem("authToken", data.token);
-      //   setLoggedInUser(data.response_data);
-      //   navigate("/admin/dashboard");
-      // } else {
-      //   toast({
-      //     title: "Account created.",
-      //     description: "We've created your account for you.",
-      //     status: "success",
-      //     duration: 9000,
-      //     isClosable: true,
-      //   });
-      // }
-      dispatch(signIn(userData,navigate))
+      dispatch(signIn(userData, navigate));
     } catch (error) {
       console.error("Login failed:", error);
       if (error.response) {
@@ -104,6 +83,7 @@ const LogIn = () => {
           me="auto"
           mb={{ base: "20px", md: "auto" }}
         >
+          {!showForgetPassword && (
           <FormControl as="form" onSubmit={handleSubmit}>
             <Input
               isRequired={true}
@@ -164,12 +144,17 @@ const LogIn = () => {
                   Keep me logged in
                 </FormLabel>
               </FormControl>
-              <NavLink to="/auth/forgot-password">
+              <NavLink
+                onClick={(e) => {
+                  console.log("aya");
+                }}
+              >
                 <Text
                   color={textColorBrand}
                   fontSize="sm"
                   w="124px"
                   fontWeight="500"
+                  onClick={() => setShowForgetPassword(true)}
                 >
                   Forgot password?
                 </Text>
@@ -187,6 +172,8 @@ const LogIn = () => {
               Sign In
             </Button>
           </FormControl>
+          )}
+          {showForgetPassword && <ForgotPassword />}
           <Flex
             flexDirection="column"
             justifyContent="center"

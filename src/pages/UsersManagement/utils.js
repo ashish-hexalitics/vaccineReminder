@@ -1,5 +1,5 @@
-export const formFields = (roles) => {
-  return [
+export const formFields = (roles, vaccineTemplates, roleName) => {
+  const common = [
     {
       name: "name",
       label: "Name",
@@ -28,7 +28,7 @@ export const formFields = (roles) => {
       label: "Role",
       type: "select",
       placeholder: "Select role",
-      options: roles.map((role) => ({ label: role.role_name, value: role.id })),
+      options: roles.map((role) => ({ label: role.role_name, value: role.id })).filter((role) => role.label !== roleName),
     },
     {
       name: "password",
@@ -36,12 +36,34 @@ export const formFields = (roles) => {
       type: "password",
       placeholder: "Enter password",
     },
-    // {
-    //   name: "vaccinetemplates",
-    //   label: "Vaccine Templates",
-    //   type: "select",
-    //   placeholder: "Select role",
-    //   options: roles.map((role) => ({ label: role.role_name, value: role.id })),
-    // },
   ];
+  const VaccineTemplates = [
+    {
+      name: "vaccinetemplates",
+      label: "Vaccine Templates",
+      placeholder: "Select The Templates",
+      type: "multi-select",
+      options: vaccineTemplates.map((vaccineTemplate) => ({
+        label: vaccineTemplate.name,
+        value: vaccineTemplate.id,
+      })),
+    },
+  ];
+  switch (roleName) {
+    case "Superadmin":
+      return [...common];
+      break;
+    case "Admin":
+      return [...common, ...VaccineTemplates];
+      break;
+    case "Doctor":
+      return [...common, ...VaccineTemplates];
+      break;
+    case "Staff":
+      return [...common, ...VaccineTemplates];
+      break;
+    default:
+      return [...common];
+      break;
+  }
 };

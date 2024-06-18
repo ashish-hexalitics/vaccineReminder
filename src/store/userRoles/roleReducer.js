@@ -1,7 +1,8 @@
 import {
-  GET_USER_ROLE_FAIL,
+  GET_USER_ROLE_API_FAIL,
   GET_USER_ROLE_SUCCESS,
   UPDATE_ROLES_LOADER,
+  RESET_USER_ROLES,
 } from "./actionType";
 
 const initialState = {
@@ -15,9 +16,9 @@ const userRoleReducer = (state = initialState, action) => {
     case GET_USER_ROLE_SUCCESS:
       return {
         ...state,
-        roles: [ ...state.user, ...action.payload],
+        roles: [...state.roles, ...action.payload],
       };
-    case GET_USER_ROLE_FAIL:
+    case GET_USER_ROLE_API_FAIL:
       return {
         ...state,
         error: { ...action.payload },
@@ -26,6 +27,12 @@ const userRoleReducer = (state = initialState, action) => {
       return {
         ...state,
         loader: action.payload,
+      };
+    case RESET_USER_ROLES:
+      return {
+        roles: [],
+        error: {},
+        loader: false,
       };
     default:
       return state;

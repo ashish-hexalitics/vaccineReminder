@@ -2,6 +2,7 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { CREATE_USER, GET_USER_LIST } from "./actionType";
 import { createUserSuccess, userApiFail, updateUserLoader } from "./userAction";
 import { registerUser } from "../../helpers/api/authApi";
+import toastr from "toastr";
 
 function* createUserSaga({ payload }) {
   yield put(updateUserLoader(true));
@@ -9,9 +10,10 @@ function* createUserSaga({ payload }) {
     // const {  navigate } = payload;
     const response = yield call(registerUser, payload);
     yield put(createUserSuccess(response.response_data));
-    // navigate("/admin/dashboard");
+    toastr.success("Create User Success");
   } catch (error) {
     yield put(userApiFail(error));
+    toastr.error(error.response.data.message);
   } finally {
     yield put(updateUserLoader(false));
   }

@@ -5,34 +5,47 @@ import AppForm from "../../components/AppForm";
 import { formFields } from "./utils";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser as onCreateUser } from "../../store/userConfigure/userAction";
-// import AppToaster from "../../components/AppToaster";
+import {
+  resetRolesUser,
+  userRoles as getUserRoles,
+} from "../../store/userRoles/roleAction";
+import {
+  getVaccineTemplateList,
+  resetVaccineTemplateList,
+} from "../../store/vaccineTemplates/vaccineTemplateAction";
 import moment from "moment";
 
 const CreateUser = () => {
   const [roleData, setRoleData] = useState([]);
   const dispatch = useDispatch();
 
-  const { loggedInUser } = useSelector((state) => {
-    return { loggedInUser: state.authReducer.user };
-  });
+  const { loggedInUser, vaccineTemplateReducer, roleReducer } = useSelector(
+    (state) => {
+      return {
+        loggedInUser: state.authReducer.user,
+        vaccineTemplateReducer: state.vaccineTemplateReducer.vaccineTemplates,
+        roleReducer: state.roleReducer.roles,
+      };
+    }
+  );
 
   useEffect(() => {
-    const fetchData = async () => {
-      const roles = await getAllRoles();
-      if (roles?.response_data) {
-        setRoleData(
-          Array.isArray(roles?.response_data) &&
-            roles.response_data.filter(
-              (role) => role?.role_name !== "Superadmin"
-            )
-        );
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch(resetVaccineTemplateList());
+    dispatch(getVaccineTemplateList());
+    dispatch(resetRolesUser());
+    dispatch(getUserRoles());
+  }, [dispatch]);
 
-  const handleSubmit = (formikValues, formik) => {
-    console.log(formikValues, formik, "Submit");
+  useEffect(() => {
+    if (roleReducer) {
+      setRoleData(
+        Array.isArray(roleReducer) &&
+          roleReducer.filter((role) => role?.role_name !== "Superadmin")
+      );
+    }
+  }, [roleReducer]);
+
+  const handleSubmit = (formikValues, actions) => {
     dispatch(
       onCreateUser({
         ...formikValues,
@@ -43,29 +56,17 @@ const CreateUser = () => {
         created_date: moment().format("YYYY-MM-DD"),
       })
     );
-    // formik.validateForm().then((errors) => {
-    //   if (Object.keys(errors).length === 0) {
-    //     console.log(formikValues, "formikValues>>");
-    //   } else {
-    //     const touchedFields = {};
-    //     Object.keys(errors).forEach((field) => {
-    //       touchedFields[field] = true;
-    //     });
-    //     formik.setTouched(touchedFields);
-    //     console.log("Validation errors:", errors);
-    //   }
-    // });
+    dispatch(getVaccineTemplateList());
+    actions.resetForm(); 
   };
 
-  const fields = formFields(roleData);
+  const fields =
+    roleData &&
+    vaccineTemplateReducer &&
+    formFields(roleData, vaccineTemplateReducer, loggedInUser.role_name);
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      {/* <AppToaster
-        title="User created successfully"
-        description="User created successfully"
-        status="success"
-      /> */}
       <AppForm
         formTitle="Create User"
         initialValues={{
