@@ -12,17 +12,19 @@ import { Formik, Form } from "formik";
 import Card from "../card/Card";
 import { renderInputs } from "./fields";
 import { createValidationSchema } from "./validation";
+import { useNavigate } from "react-router-dom";
 
 function AppForm({
   formFields = [],
   initialValues = {},
   handleFormSubmit,
   formTitle = "",
-  showCancel=false
+  showCancel = false,
 }) {
   const textColor = useColorModeValue("secondaryGray.900", "white");
 
   const validationSchema = createValidationSchema(formFields);
+  const navigate = useNavigate();
 
   return (
     <Box pt={{ base: "20px", md: "30px", xl: "40px" }}>
@@ -64,7 +66,13 @@ function AppForm({
               </Grid>
               <Flex px="25px" justify="flex-end" mb="20px" align="center">
                 {showCancel && (
-                  <Button h="44px" me="2" mb="10px" variant="brand">
+                  <Button
+                    h="44px"
+                    me="2"
+                    mb="10px"
+                    variant="brand"
+                    onClick={() => navigate(-1)}
+                  >
                     Cancel
                   </Button>
                 )}

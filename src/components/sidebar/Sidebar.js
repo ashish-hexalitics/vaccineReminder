@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // chakra imports
 import {
@@ -12,6 +12,7 @@ import {
   useDisclosure,
   DrawerContent,
   DrawerCloseButton,
+  IconButton,
 } from "@chakra-ui/react";
 import Content from "components/sidebar/components/Content";
 import {
@@ -24,9 +25,10 @@ import PropTypes from "prop-types";
 
 // Assets
 import { IoMenuOutline } from "react-icons/io5";
-
+import { MdMenu, MdTurnLeft } from "react-icons/md";
 function Sidebar(props) {
-  const { routes, loggedInUser } = props;
+  const { routes, loggedInUser, sidebarVisibility, setSidebarVisibility } =
+    props;
 
   let variantChange = "0.2s linear";
   let shadow = useColorModeValue(
@@ -39,16 +41,16 @@ function Sidebar(props) {
 
   // SIDEBAR
   return (
-    <Box
+    <Flex
       display={{ sm: "none", xl: "block" }}
       w="100%"
       position="fixed"
       minH="100%"
     >
-      <Box
+      <Flex
         bg={sidebarBg}
         transition={variantChange}
-        w="300px"
+        w={sidebarVisibility ? "80px" : "300px"}
         h="100vh"
         m={sidebarMargins}
         minH="100%"
@@ -61,10 +63,25 @@ function Sidebar(props) {
           renderThumbVertical={renderThumb}
           renderView={renderView}
         >
-          <Content routes={routes} />
+          <Flex w={"100%"} justify={"flex-end"} mt="2" px="25px">
+            <IconButton
+              icon={
+                <Icon
+                  as={sidebarVisibility ? MdMenu : MdTurnLeft}
+                  width="20px"
+                  height="20px"
+                  color="inherit"
+                />
+              }
+              size="sm"
+              onClick={() => setSidebarVisibility(!sidebarVisibility)}
+              aria-label="View"
+            />
+          </Flex>
+          <Content routes={routes} sidebarVisibility={sidebarVisibility} />
         </Scrollbars>
-      </Box>
-    </Box>
+      </Flex>
+    </Flex>
   );
 }
 

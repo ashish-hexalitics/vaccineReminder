@@ -17,7 +17,7 @@ export default function DashboardLayout(props) {
   // states and functions
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
-
+  const [sidebarVisibility, setSidebarVisibility] = useState(false);
   const { loggedInUser } = useContext(AppContext);
 
   const getActiveRoute = (routes) => {
@@ -120,12 +120,18 @@ export default function DashboardLayout(props) {
   const { onOpen } = useDisclosure();
   document.documentElement.dir = "ltr";
 
-  const renderAdminLayout = getLayout(loggedInUser?.role_name)
+  const renderAdminLayout = getLayout(loggedInUser?.role_name);
   return (
     <Box>
       <Box>
         <SidebarContext.Provider value={{ toggleSidebar, setToggleSidebar }}>
-          <Sidebar routes={renderAdminLayout} display="none" {...rest} />
+          <Sidebar
+            routes={renderAdminLayout}
+            sidebarVisibility={sidebarVisibility}
+            setSidebarVisibility={setSidebarVisibility}
+            display="none"
+            {...rest}
+          />
           <Box
             float="right"
             minHeight="100vh"
@@ -133,8 +139,14 @@ export default function DashboardLayout(props) {
             overflow="auto"
             position="relative"
             maxHeight="100%"
-            w={{ base: "100%", xl: "calc( 100% - 290px )" }}
-            maxWidth={{ base: "100%", xl: "calc( 100% - 290px )" }}
+            w={{
+              base: "100%",
+              xl: sidebarVisibility ? "calc( 100% - 90px )" : "calc( 100% - 290px )",
+            }}
+            maxWidth={{
+              base: "100%",
+              xl: sidebarVisibility  ? "calc( 100% - 90px )" : "calc( 100% - 290px )",
+            }}
             transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
             transitionDuration=".2s, .2s, .35s"
             transitionProperty="top, bottom, width"
@@ -144,13 +156,14 @@ export default function DashboardLayout(props) {
               <Box>
                 <Navbar
                   onOpen={onOpen}
-                  logoText={"Horizon UI Dashboard PRO"}
+                  logoText={"Vaccine Reminders"}
                   brandText={getActiveRoute(renderAdminLayout)}
                   secondary={getActiveNavbar(renderAdminLayout)}
                   message={getActiveNavbarText(renderAdminLayout)}
                   fixed={fixed}
                   {...rest}
                   loggedInUser={loggedInUser}
+                  sidebarVisibility={sidebarVisibility}
                 />
               </Box>
             </Portal>
