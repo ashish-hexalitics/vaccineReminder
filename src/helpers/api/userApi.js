@@ -1,4 +1,4 @@
-import { get } from "../api_helper";
+import { get, patch } from "../api_helper";
 import { USER_ROUTES } from "../constant";
 
 const getMe = async (userId) => {
@@ -49,4 +49,17 @@ const getAllRoles = async (userId) => {
   }
 };
 
-export { getMe, getAllAdmin, getAllUsers, getAllRoles };
+const getUserDetailsApi = (userId) =>
+  get(`${USER_ROUTES}/getuserinfo?user_id=${userId}`);
+
+const updateUserDetailsApi = (userId,data) =>
+  patch(`${USER_ROUTES}/getuserinfo/${userId}`, data);
+
+export {
+  getMe,
+  getAllAdmin,
+  getAllUsers,
+  getAllRoles,
+  getUserDetailsApi,
+  updateUserDetailsApi,
+};

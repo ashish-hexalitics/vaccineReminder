@@ -10,10 +10,17 @@ import {
   Th,
   Thead,
   Tr,
+  IconButton,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Card from "components/card/Card";
-import Menu from "components/menu/MainMenu";
+import {
+  ViewIcon,
+  EditIcon,
+  DeleteIcon,
+  HamburgerIcon,
+} from "@chakra-ui/icons";
+import Card from "../card/Card";
+import Menu from "../menu/MainMenu";
 import {
   useGlobalFilter,
   usePagination,
@@ -21,20 +28,73 @@ import {
   useTable,
 } from "react-table";
 
-export default function DevelopmentTable(props) {
-  const { columnsData, tableData, tableTitle = "", isMenu = false } = props;
+export default function AppTable(props) {
+  const {
+    columnsData,
+    tableData,
+    tableTitle = "",
+    isMenu = false,
+    isAddButton = false,
+    onView,
+    onEdit,
+    onDelete,
+    onMore,
+  } = props;
 
-  // Add SN column dynamically
+  // Add SN and Actions columns dynamically
   const columns = useMemo(() => {
+    const actionColumn = {
+      Header: "ACTIONS",
+      accessor: "actions",
+      label: "ACTIONS",
+      Cell: ({ row }) => (
+        <Flex>
+          {onView && (
+            <IconButton
+              icon={<ViewIcon />}
+              size="sm"
+              onClick={() => onView(row.original, "VIEW")}
+              aria-label="View"
+            />
+          )}
+          {onEdit && (
+            <IconButton
+              icon={<EditIcon />}
+              size="sm"
+              onClick={() => onEdit(row.original, "EDIT")}
+              aria-label="Edit"
+            />
+          )}
+          {onDelete && (
+            <IconButton
+              icon={<DeleteIcon />}
+              size="sm"
+              onClick={() => onDelete(row.original, "DELETE")}
+              aria-label="Delete"
+            />
+          )}
+          {onMore && (
+            <IconButton
+              icon={<HamburgerIcon />}
+              size="sm"
+              onClick={() => onMore(row.original, "MORE")}
+              aria-label="More"
+            />
+          )}
+        </Flex>
+      ),
+    };
+
     return [
       {
         Header: "SN",
         accessor: (_, rowIndex) => rowIndex + 1,
         label: "SN",
       },
-      ...columnsData
+      ...columnsData,
+      actionColumn,
     ];
-  }, [columnsData]);
+  }, [columnsData, onView, onEdit, onDelete, onMore]);
 
   const data = useMemo(() => tableData, [tableData]);
 
@@ -61,6 +121,9 @@ export default function DevelopmentTable(props) {
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const iconColor = useColorModeValue("secondaryGray.500", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
+  const headerBgColor = useColorModeValue("gray.50", "gray.700");
+  const rowHoverColor = useColorModeValue("gray.100", "gray.600");
+  const alternateRowColor = useColorModeValue("gray.50", "gray.700");
 
   return (
     <Card
@@ -79,12 +142,14 @@ export default function DevelopmentTable(props) {
           {tableTitle}
         </Text>
         {isMenu && <Menu />}
-        <Button h="44px" mb="10px" variant="brand">
-          ADD MORE
-        </Button>
+        {isAddButton && (
+          <Button h="44px" mb="10px" variant="solid" colorScheme="blue">
+            ADD MORE
+          </Button>
+        )}
       </Flex>
       <Table {...getTableProps()} variant="simple" color="gray.500" mb="24px">
-        <Thead>
+        <Thead bg={headerBgColor}>
           {headerGroups.map((headerGroup, index) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
               {headerGroup.headers.map((column, index) => (
@@ -111,7 +176,12 @@ export default function DevelopmentTable(props) {
           {page.map((row, rowIndex) => {
             prepareRow(row);
             return (
-              <Tr {...row.getRowProps()} key={rowIndex}>
+              <Tr
+                {...row.getRowProps()}
+                key={rowIndex}
+                _hover={{ bg: rowHoverColor }}
+                bg={rowIndex % 2 === 0 ? alternateRowColor : "transparent"}
+              >
                 {row.cells.map((cell, index) => {
                   let data = "";
                   if (cell.column.label === "NAME") {
@@ -132,6 +202,8 @@ export default function DevelopmentTable(props) {
                         {rowIndex + 1}
                       </Text>
                     );
+                  } else if (cell.column.label === "ACTIONS") {
+                    data = cell.render("Cell");
                   } else {
                     data = (
                       <Text color={textColor} fontSize="sm" fontWeight="700">

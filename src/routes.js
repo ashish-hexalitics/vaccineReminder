@@ -23,6 +23,7 @@ import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import VaccineTemplates from "./pages/VaccineManagement/VaccineTemplates";
 import AdminList from "./pages/AdminManagement/AdminList";
 import CreateUser from "./pages/UsersManagement/CreateUser";
+import EditUser from "./pages/AdminManagement/EditUser";
 import CreateDoctor from "./pages/DoctorManagement/CreateDoctor";
 
 import Home from "./views/Landing";
@@ -43,7 +44,7 @@ const routes = [
   {
     name: "Admin List",
     layout: "/admin",
-    path: "/list",
+    path: "/user-list",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
   },
   {
@@ -59,6 +60,43 @@ const routes = [
   //   icon: <Icon as={MdLocalHospital} width="20px" height="20px" color="inherit" />,
   // },
 ];
+
+const getLayout = (roleName) => {
+  return [
+    {
+      name: "Dashboard",
+      layout: `/${roleName}`,
+      path: "/dashboard",
+      icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    },
+    {
+      name: "Vaccine Templates List",
+      layout: `/${roleName}`,
+      path: "/vaccine-list",
+      icon: <Icon as={MdVaccines} width="20px" height="20px" color="inherit" />,
+    },
+    {
+      name: "Admin List",
+      layout: `/${roleName}`,
+      path: "/admin-list",
+      icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    },
+    {
+      name: "Create User",
+      layout: `/${roleName}`,
+      path: "/create-users",
+      icon: (
+        <Icon as={MdPersonAdd} width="20px" height="20px" color="inherit" />
+      ),
+    },
+    // {
+    //   name: "Create Doctors",
+    //   layout: "/admin",
+    //   path: "/create-doctors",
+    //   icon: <Icon as={MdLocalHospital} width="20px" height="20px" color="inherit" />,
+    // },
+  ];
+};
 
 // {
 //   name: "NFT Marketplace",
@@ -129,27 +167,31 @@ const authProtectedRoutes = [
     component: <AdminDashboard />,
   },
   {
-    path: "/admin/vaccine-list",
+    path: "/:roleName/vaccine-list",
     component: <VaccineTemplates />,
   },
   {
-    path: "/admin/list",
+    path: "/:roleName/admin-list",
     component: <AdminList />,
   },
   {
-    path: "/admin/create-users",
+    path: "/:roleName/edit/:userType/:userId",
+    component: <EditUser />,
+  },
+  {
+    path: "/:roleName/create-users",
     component: <CreateUser />,
   },
   // {
-  //   path: "/admin/create-doctors",
+  //   path: "/:roleName/create-doctors",
   //   component: <CreateDoctor />,
   // },
   {
-    path: "/admin/nft-marketplace",
+    path: "/:roleName/nft-marketplace",
     component: <NFTMarketplace />,
   },
   {
-    path: "/admin/profile",
+    path: "/:roleName/profile",
     component: <Profile />,
   },
   {
@@ -169,6 +211,7 @@ export {
   publicRoutes,
   authProtectedRoutes,
   routes,
+  getLayout,
 };
 
 // export default routes;

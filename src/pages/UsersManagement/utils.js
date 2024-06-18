@@ -1,4 +1,9 @@
-export const formFields = (roles, vaccineTemplates, roleName) => {
+export const formFields = (
+  roles,
+  vaccineTemplates,
+  roleName,
+  showPassword = true
+) => {
   const common = [
     {
       name: "name",
@@ -28,14 +33,20 @@ export const formFields = (roles, vaccineTemplates, roleName) => {
       label: "Role",
       type: "select",
       placeholder: "Select role",
-      options: roles.map((role) => ({ label: role.role_name, value: role.id })).filter((role) => role.label !== roleName),
+      options: roles
+        .map((role) => ({ label: role.role_name, value: role.id }))
+        .filter((role) => role.label !== roleName),
     },
-    {
-      name: "password",
-      label: "Password",
-      type: "password",
-      placeholder: "Enter password",
-    },
+    ...(showPassword
+      ? [
+          {
+            name: "password",
+            label: "Password",
+            type: "password",
+            placeholder: "Enter password",
+          },
+        ]
+      : []),
   ];
   const VaccineTemplates = [
     {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // Chakra imports
 import { Box, SimpleGrid } from "@chakra-ui/react";
-import DevelopmentTable from "./components/DevelopmentTable";
+import AppTable from "../../components/AppTable";
 import AppLoader from "../../components/AppLoader";
 import {
   getVaccineTemplateList,
@@ -84,7 +84,7 @@ export default function VaccineTemplateList() {
         spacing={{ base: "20px", xl: "20px" }}
       >
         {vaccineTemplates.length > 0 ? (
-          <DevelopmentTable
+          <AppTable
             columnsData={columns}
             tableData={vaccineTemplates}
           />

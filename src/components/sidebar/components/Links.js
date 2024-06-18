@@ -48,6 +48,9 @@ export function SidebarLinks(props) {
         );
       } else if (
         route.layout === "/admin" ||
+        route.layout === "/Superadmin" ||
+        route.layout === "/Doctor" ||
+        route.layout === "/Staff" ||
         route.layout === "/auth" ||
         route.layout === "/rtl"
       ) {

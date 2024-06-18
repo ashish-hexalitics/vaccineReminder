@@ -13,7 +13,13 @@ import Card from "../card/Card";
 import { renderInputs } from "./fields";
 import { createValidationSchema } from "./validation";
 
-function AppForm({ formFields = [], initialValues = {},handleFormSubmit, formTitle = "" }) {
+function AppForm({
+  formFields = [],
+  initialValues = {},
+  handleFormSubmit,
+  formTitle = "",
+  showCancel=false
+}) {
   const textColor = useColorModeValue("secondaryGray.900", "white");
 
   const validationSchema = createValidationSchema(formFields);
@@ -22,7 +28,12 @@ function AppForm({ formFields = [], initialValues = {},handleFormSubmit, formTit
     <Box pt={{ base: "20px", md: "30px", xl: "40px" }}>
       <Card w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
         <Flex px="25px" justify="space-between" mb="20px" align="center">
-          <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
+          <Text
+            color={textColor}
+            fontSize="22px"
+            fontWeight="700"
+            lineHeight="100%"
+          >
             {formTitle}
           </Text>
         </Flex>
@@ -31,10 +42,10 @@ function AppForm({ formFields = [], initialValues = {},handleFormSubmit, formTit
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
             //  e.preventDefault()
-            handleFormSubmit(values, actions)
+            handleFormSubmit(values, actions);
           }}
         >
-          {formik => (
+          {(formik) => (
             <Form>
               <Grid
                 templateColumns={{
@@ -52,6 +63,11 @@ function AppForm({ formFields = [], initialValues = {},handleFormSubmit, formTit
                 ))}
               </Grid>
               <Flex px="25px" justify="flex-end" mb="20px" align="center">
+                {showCancel && (
+                  <Button h="44px" me="2" mb="10px" variant="brand">
+                    Cancel
+                  </Button>
+                )}
                 <Button type="submit" h="44px" mb="10px" variant="brand">
                   Submit
                 </Button>

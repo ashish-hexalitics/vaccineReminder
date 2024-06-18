@@ -7,7 +7,7 @@ import Sidebar from "components/sidebar/Sidebar.js";
 import { SidebarContext } from "contexts/SidebarContext";
 import React, { useState, useContext } from "react";
 import { Route } from "react-router-dom";
-import { routes } from "../../routes";
+import { getLayout } from "../../routes";
 
 import { AppContext } from "../../contexts/AppContext";
 
@@ -120,11 +120,12 @@ export default function DashboardLayout(props) {
   const { onOpen } = useDisclosure();
   document.documentElement.dir = "ltr";
 
+  const renderAdminLayout = getLayout(loggedInUser?.role_name)
   return (
     <Box>
       <Box>
         <SidebarContext.Provider value={{ toggleSidebar, setToggleSidebar }}>
-          <Sidebar routes={routes} display="none" {...rest} />
+          <Sidebar routes={renderAdminLayout} display="none" {...rest} />
           <Box
             float="right"
             minHeight="100vh"
@@ -144,9 +145,9 @@ export default function DashboardLayout(props) {
                 <Navbar
                   onOpen={onOpen}
                   logoText={"Horizon UI Dashboard PRO"}
-                  brandText={getActiveRoute(routes)}
-                  secondary={getActiveNavbar(routes)}
-                  message={getActiveNavbarText(routes)}
+                  brandText={getActiveRoute(renderAdminLayout)}
+                  secondary={getActiveNavbar(renderAdminLayout)}
+                  message={getActiveNavbarText(renderAdminLayout)}
                   fixed={fixed}
                   {...rest}
                   loggedInUser={loggedInUser}

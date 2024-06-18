@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import "assets/css/App.css";
-import { BrowserRouter, Route, Routes, Navigate, json } from "react-router-dom";
+import { BrowserRouter, Route, Routes} from "react-router-dom";
 import AuthLayout from "./layouts/auth";
 import AdminLayout from "./layouts/admin";
 import RtlLayout from "./layouts/rtl";
