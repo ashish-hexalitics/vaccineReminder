@@ -58,10 +58,11 @@ export default function UserList() {
       dispatch(resetUserDetail());
     };
   }, [dispatch, params?.userRole]);
-
   const handleActions = (data, actionType) => {
     if (actionType === "EDIT") {
-      navigate(`/${params.roleName}/edit/admin/${data.id}`);
+      navigate(`/${params.roleName}/edit/${params.userRole}/${data.id}`);
+    } else if (actionType === "VIEW") {
+      navigate(`/${params.roleName}/view/${params.userRole}/${data.id}`);
     } else if (actionType === "DELETE") {
       setSelectedUserId(data.id); // Set the selected user ID
       onOpen();
@@ -92,6 +93,7 @@ export default function UserList() {
             onEdit={handleActions}
             onDelete={handleActions}
             // onMore={handleMore}
+            showAction={true}
           />
         ) : (
           <AppLoader />

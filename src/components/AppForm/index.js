@@ -35,6 +35,7 @@ function AppForm({
             fontSize="22px"
             fontWeight="700"
             lineHeight="100%"
+            textTransform={'capitalize'}
           >
             {formTitle}
           </Text>

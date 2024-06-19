@@ -43,6 +43,7 @@ export default function AppTable(props) {
     onEdit,
     onDelete,
     onMore,
+    showAction=false
   } = props;
 
   // Add SN and Actions columns dynamically
@@ -96,7 +97,7 @@ export default function AppTable(props) {
         label: "SN",
       },
       ...columnsData,
-      actionColumn,
+      ...(showAction?[actionColumn]:[]),
     ];
   }, [columnsData, onView, onEdit, onDelete, onMore]);
 

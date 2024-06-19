@@ -91,6 +91,8 @@ export default function EditUser() {
     vaccineTemplateReducer &&
     formFields(roleData, vaccineTemplateReducer, loggedInUser.role_name, false);
 
+    console.log(params)
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid
@@ -102,7 +104,7 @@ export default function EditUser() {
           <AppLoader />
         ) : (
           <AppForm
-            formTitle="Edit Admin"
+            formTitle={`Edit ${params.userType}`}
             initialValues={{
               ...userDetails,
               date_of_birth: moment(userDetails?.date_of_birth).format(

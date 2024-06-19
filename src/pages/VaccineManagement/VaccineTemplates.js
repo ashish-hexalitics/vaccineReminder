@@ -15,16 +15,16 @@ const columns = [
     accessor: "name",
     label: "NAME",
   },
-  {
-    Header: "VACCINE FREQUENCY",
-    accessor: "vaccine_frequency",
-    label: "VACCINE FREQUENCY",
-  },
-  {
-    Header: "VERSION NUMBER",
-    accessor: "version_number",
-    label: "VERSION NUMBER",
-  },
+  // {
+  //   Header: "VACCINE FREQUENCY",
+  //   accessor: "vaccine_frequency",
+  //   label: "VACCINE FREQUENCY",
+  // },
+  // {
+  //   Header: "VERSION NUMBER",
+  //   accessor: "version_number",
+  //   label: "VERSION NUMBER",
+  // },
   {
     Header: "IS MANDATORY",
     accessor: "is_mandatory",
@@ -36,9 +36,9 @@ const columns = [
     label: "CREATED BY",
   },
   {
-    Header: "CREATED DATE",
+    Header: "DATE",
     accessor: "created_date",
-    label: "DATE",
+    label: "Date",
   },
 ];
 

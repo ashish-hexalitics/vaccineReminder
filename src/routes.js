@@ -23,11 +23,12 @@ import Login from "./pages/Auth/Login";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import VaccineTemplates from "./pages/VaccineManagement/VaccineTemplates";
 import AdminList from "./pages/AdminManagement/AdminList";
+import UserList from "./pages/UsersManagement/UserList";
 import CreateUser from "./pages/UsersManagement/CreateUser";
 import EditUser from "./pages/UsersManagement/EditUser";
+import ViewUser from "./pages/UsersManagement/ViewUser";
 import DoctorList from "./pages/DoctorManagement/DoctorList";
 import StaffList from "./pages/StaffManagement/StaffList";
-import UserList from "./pages/UsersManagement/UserList";
 
 import Home from "./views/Landing";
 
@@ -222,6 +223,10 @@ const authProtectedRoutes = [
   {
     path: "/:roleName/edit/:userType/:userId",
     component: <EditUser />,
+  },
+  {
+    path: "/:roleName/view/:userType/:userId",
+    component: <ViewUser />,
   },
   {
     path: "/:roleName/create-users",
