@@ -11,6 +11,8 @@ import {
   Thead,
   Tr,
   IconButton,
+  Stack,
+  Badge,
   useColorModeValue,
 } from "@chakra-ui/react";
 import {
@@ -18,6 +20,8 @@ import {
   EditIcon,
   DeleteIcon,
   HamburgerIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from "@chakra-ui/icons";
 import Card from "../card/Card";
 import Menu from "../menu/MainMenu";
@@ -102,6 +106,7 @@ export default function AppTable(props) {
     {
       columns,
       data,
+      initialState: { pageSize: 5 },
     },
     useGlobalFilter,
     useSortBy,
@@ -115,8 +120,13 @@ export default function AppTable(props) {
     page,
     prepareRow,
     initialState,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    pageOptions,
+    state: { pageIndex, pageSize },
   } = tableInstance;
-  initialState.pageSize = 11;
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const iconColor = useColorModeValue("secondaryGray.500", "white");
@@ -184,25 +194,36 @@ export default function AppTable(props) {
               >
                 {row.cells.map((cell, index) => {
                   let data = "";
-                  if (cell.column.label === "NAME") {
+                  if (cell.column.Header === "NAME") {
                     data = (
                       <Text color={textColor} fontSize="sm" fontWeight="700">
                         {cell.value}
                       </Text>
                     );
-                  } else if (cell.column.label === "DATE") {
+                  } else if (cell.column.Header === "DATE") {
                     data = (
                       <Text color={textColor} fontSize="sm" fontWeight="700">
                         {moment(cell.value).format("YYYY-MM-DD")}
                       </Text>
                     );
-                  } else if (cell.column.label === "SN") {
+                  } else if (cell.column.Header === "SN") {
                     data = (
                       <Text color={textColor} fontSize="sm" fontWeight="700">
                         {rowIndex + 1}
                       </Text>
                     );
-                  } else if (cell.column.label === "ACTIONS") {
+                  } else if (cell.column.Header === "STATUS") {
+                    const cellProps = cell.render("Cell");
+                    const value = cellProps.props.cell.row.values[cell.column.id]
+                    console.log(value);
+                    data = (
+                      <Stack direction="row">
+                        <Badge colorScheme={value === 1 ? "green" : "red"}>
+                          {value === 1 ? "Active" : "Inactive"}
+                        </Badge>
+                      </Stack>
+                    );
+                  } else if (cell.column.Header === "ACTIONS") {
                     data = cell.render("Cell");
                   } else {
                     data = (
@@ -228,6 +249,31 @@ export default function AppTable(props) {
           })}
         </Tbody>
       </Table>
+      <Flex justify="space-between" align="center" px="25px" mb="20px">
+        <Text fontSize="sm">
+          Page{" "}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>
+        </Text>
+        <Flex>
+          <IconButton
+            onClick={previousPage}
+            isDisabled={!canPreviousPage}
+            icon={<ChevronLeftIcon />}
+            aria-label="Previous Page"
+            size="sm"
+            mr="2"
+          />
+          <IconButton
+            onClick={nextPage}
+            isDisabled={!canNextPage}
+            icon={<ChevronRightIcon />}
+            aria-label="Next Page"
+            size="sm"
+          />
+        </Flex>
+      </Flex>
     </Card>
   );
 }

@@ -28,6 +28,11 @@ const columns = [
     accessor: "mobile_number",
     label: "Mobile Number",
   },
+  {
+    Header: "STATUS",
+    accessor: "status",
+    label: "Status",
+  },
 ];
 
 export default function UserList() {
