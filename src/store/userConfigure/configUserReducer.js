@@ -6,11 +6,16 @@ import {
   GET_USER_DETAIL_SUCCESS,
   RESET_USER_DETAILS,
   UPDATE_USER_DETAILS_SUCCESS,
+  DELETE_USER_SUCCESS,
 } from "./actionType";
 
 const initialState = {
   users: [],
   userDetails: {},
+  adminList: [],
+  doctorList: [],
+  staffList: [],
+  dynamicList: [],
   error: {},
   loader: false,
 };
@@ -20,7 +25,7 @@ const configUserReducer = (state = initialState, action) => {
     case GET_USER_LIST_SUCCESS:
       return {
         ...state,
-        users: [...state.users, ...action.payload],
+        ...action.payload,
       };
     case CREATE_USER_SUCCESS:
       return {
@@ -51,9 +56,20 @@ const configUserReducer = (state = initialState, action) => {
         ...state,
         loader: action.payload,
       };
+    case DELETE_USER_SUCCESS:
+      return {
+        ...state,
+        dynamicList: state.dynamicList.filter(
+          (user) => user.id !== action.payload.userId
+        ),
+      };
     case RESET_USER_DETAILS:
       return {
         users: [],
+        adminList: [],
+        doctorList: [],
+        staffList: [],
+        dynamicList: [],
         userDetails: {},
         error: {},
         loader: false,

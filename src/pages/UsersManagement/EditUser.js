@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import AppLoader from "../../components/AppLoader";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getUserDetail } from "../../store/userConfigure/userAction";
 import AppForm from "../../components/AppForm";
 import {
@@ -18,7 +18,7 @@ import {
   getVaccineTemplateList,
   resetVaccineTemplateList,
 } from "../../store/vaccineTemplates/vaccineTemplateAction";
-import { formFields } from "../UsersManagement/utils";
+import { formFields } from "./utils";
 import moment from "moment";
 
 export default function EditUser() {
@@ -26,6 +26,7 @@ export default function EditUser() {
 
   const dispatch = useDispatch();
   const params = useParams();
+  const navigate = useNavigate();
 
   const {
     loggedInUser,
@@ -69,13 +70,18 @@ export default function EditUser() {
 
   const handleSubmit = (formikValues, actions) => {
     dispatch(
-      updateUserDetail(userDetails.id, "editadmin", {
-        name: formikValues.name,
-        email: formikValues.email,
-        date_of_birth: formikValues.date_of_birth,
-        mobile_number: formikValues.mobile_number,
-        status:formikValues?.status?formikValues?.status:1
-      })
+      updateUserDetail(
+        userDetails.id,
+        "editadmin",
+        {
+          name: formikValues.name,
+          email: formikValues.email,
+          date_of_birth: formikValues.date_of_birth,
+          mobile_number: formikValues.mobile_number,
+          status: formikValues?.status ? formikValues?.status : 1,
+        },
+        navigate
+      )
     );
     actions.resetForm();
   };

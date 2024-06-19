@@ -1,11 +1,18 @@
-/* eslint-disable */
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-// chakra imports
-import { Box, Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  HStack,
+  Text,
+  useColorModeValue,
+  Collapse,
+  Button,
+  Icon,
+} from "@chakra-ui/react";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
 export function SidebarLinks(props) {
-  //   Chakra color mode
   let location = useLocation();
   let activeColor = useColorModeValue("gray.700", "white");
   let inactiveColor = useColorModeValue(
@@ -18,43 +25,21 @@ export function SidebarLinks(props) {
 
   const { routes, sidebarVisibility } = props;
 
-  // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return location.pathname.includes(routeName);
   };
 
-  // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
   const createLinks = (routes) => {
     return routes.map((route, index) => {
-      if (route.category) {
+      if (route.children) {
         return (
-          <>
-            <Text
-              fontSize={"md"}
-              color={activeColor}
-              fontWeight="bold"
-              mx="auto"
-              ps={{
-                sm: "10px",
-                xl: "16px",
-              }}
-              pt="18px"
-              pb="12px"
-              key={index}
-            >
-              {route.name}
-            </Text>
-            {createLinks(route.items)}
-          </>
+          <CollapsibleLink
+            key={index}
+            route={route}
+            sidebarVisibility={sidebarVisibility}
+          />
         );
-      } else if (
-        route.layout === "/admin" ||
-        route.layout === "/Superadmin" ||
-        route.layout === "/Doctor" ||
-        route.layout === "/Staff" ||
-        route.layout === "/auth" ||
-        route.layout === "/rtl"
-      ) {
+      } else {
         return (
           <NavLink key={index} to={route.layout + route.path}>
             {route.icon ? (
@@ -138,7 +123,46 @@ export function SidebarLinks(props) {
       }
     });
   };
-  //  BRAND
+
+  const CollapsibleLink = ({ route, sidebarVisibility }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    console.log(route);
+
+    const toggleCollapse = () => {
+      setIsOpen(!isOpen);
+    };
+
+    return (
+      <>
+        {!sidebarVisibility ? (
+          <Button
+            onClick={toggleCollapse}
+            variant="ghost"
+            w="100%"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Flex align="center">
+              {route.icon && <Box me="12px">{route.icon}</Box>}
+              {<Text>{route.name}</Text>}
+            </Flex>
+            {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          </Button>
+        ) : (
+          <>
+            <Flex w="100%" alignItems="center" justifyContent="center">
+              {route.icon && <Box>{route.icon}</Box>}
+            </Flex>
+          </>
+        )}
+        <Collapse in={isOpen} animateOpacity>
+          <Box pl="20px">{route.children && createLinks(route.children)}</Box>
+        </Collapse>
+      </>
+    );
+  };
+
   return createLinks(routes);
 }
 

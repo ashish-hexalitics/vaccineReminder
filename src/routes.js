@@ -8,6 +8,7 @@ import {
   MdVaccines,
   MdPersonAdd,
   MdLocalHospital,
+  MdSettings,
 } from "react-icons/md";
 // Admin Imports
 // import MainDashboard from "./views/admin/default";
@@ -23,8 +24,10 @@ import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import VaccineTemplates from "./pages/VaccineManagement/VaccineTemplates";
 import AdminList from "./pages/AdminManagement/AdminList";
 import CreateUser from "./pages/UsersManagement/CreateUser";
-import EditUser from "./pages/AdminManagement/EditUser";
-import CreateDoctor from "./pages/DoctorManagement/CreateDoctor";
+import EditUser from "./pages/UsersManagement/EditUser";
+import DoctorList from "./pages/DoctorManagement/DoctorList";
+import StaffList from "./pages/StaffManagement/StaffList";
+import UserList from "./pages/UsersManagement/UserList";
 
 import Home from "./views/Landing";
 
@@ -75,19 +78,61 @@ const getLayout = (roleName) => {
       path: "/vaccine-list",
       icon: <Icon as={MdVaccines} width="20px" height="20px" color="inherit" />,
     },
+    // {
+    //   name: "Admin List",
+    //   layout: `/${roleName}`,
+    //   path: "/admin/list",
+    //   icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    // },
+    // {
+    //   name: "Doctor List",
+    //   layout: `/${roleName}`,
+    //   path: "/doctor/list",
+    //   icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    // },
+    // {
+    //   name: "Staff List",
+    //   layout: `/${roleName}`,
+    //   path: "/staff/list",
+    //   icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    // },
     {
-      name: "Admin List",
-      layout: `/${roleName}`,
-      path: "/admin-list",
+      name: "User Management",
       icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-    },
-    {
-      name: "Create User",
-      layout: `/${roleName}`,
-      path: "/create-users",
-      icon: (
-        <Icon as={MdPersonAdd} width="20px" height="20px" color="inherit" />
-      ),
+      children: [
+        {
+          name: "Admin List",
+          layout: `/${roleName}`,
+          path: "/admin/list",
+          icon: (
+            <Icon as={MdPerson} width="20px" height="20px" color="inherit" />
+          ),
+        },
+        {
+          name: "Doctor List",
+          layout: `/${roleName}`,
+          path: "/doctor/list",
+          icon: (
+            <Icon as={MdPerson} width="20px" height="20px" color="inherit" />
+          ),
+        },
+        {
+          name: "Staff List",
+          layout: `/${roleName}`,
+          path: "/staff/list",
+          icon: (
+            <Icon as={MdPerson} width="20px" height="20px" color="inherit" />
+          ),
+        },
+        {
+          name: "Create User",
+          layout: `/${roleName}`,
+          path: "/create-users",
+          icon: (
+            <Icon as={MdPersonAdd} width="20px" height="20px" color="inherit" />
+          ),
+        },
+      ],
     },
     // {
     //   name: "Create Doctors",
@@ -170,10 +215,10 @@ const authProtectedRoutes = [
     path: "/:roleName/vaccine-list",
     component: <VaccineTemplates />,
   },
-  {
-    path: "/:roleName/admin-list",
-    component: <AdminList />,
-  },
+  // {
+  //   path: "/:roleName/admin/list",
+  //   component: <AdminList />,
+  // },
   {
     path: "/:roleName/edit/:userType/:userId",
     component: <EditUser />,
@@ -182,9 +227,17 @@ const authProtectedRoutes = [
     path: "/:roleName/create-users",
     component: <CreateUser />,
   },
+  {
+    path: "/:roleName/:userRole/list",
+    component: <UserList />,
+  },
   // {
-  //   path: "/:roleName/create-doctors",
-  //   component: <CreateDoctor />,
+  //   path: "/:roleName/doctor/list",
+  //   component: <DoctorList />,
+  // },
+  // {
+  //   path: "/:roleName/staff/list",
+  //   component: <StaffList />,
   // },
   {
     path: "/:roleName/nft-marketplace",

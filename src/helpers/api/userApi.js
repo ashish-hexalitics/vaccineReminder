@@ -1,5 +1,5 @@
-import { get, patch } from "../api_helper";
-import { USER_ROUTES } from "../constant";
+import { get, put, del } from "../api_helper";
+import { USER_ROUTES, GET_USER_LIST, GET_USER_INFO } from "../constant";
 
 const getMe = async (userId) => {
   try {
@@ -49,11 +49,16 @@ const getAllRoles = async (userId) => {
   }
 };
 
-const getUserDetailsApi = (userId) =>
-  get(`${USER_ROUTES}/getuserinfo?user_id=${userId}`);
+const getAllUserByRoleApi = (roleName) =>
+  get(`${USER_ROUTES + GET_USER_LIST}/?role_name=${roleName}`);
 
-const updateUserDetailsApi = (userId,data) =>
-  patch(`${USER_ROUTES}/getuserinfo/${userId}`, data);
+const getUserDetailsApi = (userId) =>
+  get(`${USER_ROUTES + GET_USER_INFO}?user_id=${userId}`);
+
+const updateUserDetailsApi = (slug, data) =>
+  put(`${USER_ROUTES}/${slug}`, data);
+
+const deleteUserApi = (userId) => del(`${USER_ROUTES}/${userId}`);
 
 export {
   getMe,
@@ -62,4 +67,6 @@ export {
   getAllRoles,
   getUserDetailsApi,
   updateUserDetailsApi,
+  getAllUserByRoleApi,
+  deleteUserApi,
 };

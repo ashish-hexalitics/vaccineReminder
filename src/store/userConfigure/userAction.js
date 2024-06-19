@@ -10,12 +10,14 @@ import {
   RESET_USER_DETAILS,
   UPDATE_USER_DETAILS,
   UPDATE_USER_DETAILS_SUCCESS,
+  DELETE_USER,
+  DELETE_USER_SUCCESS,
 } from "./actionType";
 
-const getUserList = (data) => {
+const getUserList = (role) => {
   return {
     type: GET_USER_LIST,
-    payload: data,
+    payload: { role },
   };
 };
 
@@ -74,16 +76,30 @@ const resetUserDetail = () => {
   };
 };
 
-const updateUserDetail = (userId, data) => {
+const updateUserDetail = (userId, slug, data, navigate = "") => {
   return {
     type: UPDATE_USER_DETAILS,
-    payload: { userId, data },
+    payload: { userId, slug, data, navigate },
   };
 };
 
 const updateUserDetailSuccess = (data) => {
   return {
     type: UPDATE_USER_DETAILS_SUCCESS,
+    payload: data,
+  };
+};
+
+const deleteUser = (userId) => {
+  return {
+    type: DELETE_USER,
+    payload: { userId },
+  };
+};
+
+const deleteUserSuccess = (data) => {
+  return {
+    type: DELETE_USER_SUCCESS,
     payload: data,
   };
 };
@@ -100,4 +116,6 @@ export {
   resetUserDetail,
   updateUserDetail,
   updateUserDetailSuccess,
+  deleteUser,
+  deleteUserSuccess,
 };
