@@ -58,7 +58,7 @@ const getUserDetailsApi = (userId) =>
 const updateUserDetailsApi = (slug, data) =>
   put(`${USER_ROUTES}/${slug}`, data);
 
-const deleteUserApi = (userId) => del(`${USER_ROUTES}/${userId}`);
+const deleteUserApi = (userId,role) => del(`${USER_ROUTES}/delete${role}`);
 
 export {
   getMe,

@@ -72,7 +72,7 @@ export default function UserList() {
 
   const handleConfirm = () => {
     if (selectedUserId) {
-      dispatch(deleteUser(selectedUserId)); // Dispatch the deleteUser action
+      dispatch(deleteUser(selectedUserId,params?.userRole)); // Dispatch the deleteUser action
       console.log("Confirmed!");
       onClose();
     }

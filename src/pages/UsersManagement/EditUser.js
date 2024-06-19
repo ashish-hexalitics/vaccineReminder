@@ -91,8 +91,6 @@ export default function EditUser() {
     vaccineTemplateReducer &&
     formFields(roleData, vaccineTemplateReducer, loggedInUser.role_name, false);
 
-    console.log(params)
-
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid

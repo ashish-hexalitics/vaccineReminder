@@ -38,16 +38,19 @@ export default function ViewUser() {
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <Grid gap={{ base: "20px", xl: "20px" }}>
-        <Banner
-          gridArea="1 / 1 / 2 / 2"
-          banner={banner}
-          avatar={avatar}
-          name={userDetails.name}
-          job={userDetails.email}
-        //   posts="17"
-        //   followers="9.7k"
-        //   following="274"
-        />
+        {!loader && (
+          <Banner
+            gridArea="1 / 1 / 2 / 2"
+            banner={banner}
+            avatar={avatar}
+            name={userDetails.name}
+            job={userDetails.email}
+            //   posts="17"
+            //   followers="9.7k"
+            //   following="274"
+          />
+        )}
+        {loader && <AppLoader/>}
       </Grid>
     </Box>
   );

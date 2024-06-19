@@ -11,7 +11,13 @@ function index() {
         justifyContent: "center",
       }}
     >
-      <Spinner />
+      <Spinner
+        thickness="3px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="md"
+      />
     </Box>
   );
 }

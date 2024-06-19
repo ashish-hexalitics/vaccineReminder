@@ -90,10 +90,10 @@ const updateUserDetailSuccess = (data) => {
   };
 };
 
-const deleteUser = (userId) => {
+const deleteUser = (userId,role) => {
   return {
     type: DELETE_USER,
-    payload: { userId },
+    payload: { userId,role },
   };
 };
 

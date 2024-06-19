@@ -4,7 +4,7 @@ import {
   GET_USER_LIST,
   GET_USER_DETAIL,
   UPDATE_USER_DETAILS,
-  DELETE_USER
+  DELETE_USER,
 } from "./actionType";
 import {
   createUserSuccess,
@@ -13,14 +13,14 @@ import {
   updateUserLoader,
   updateUserDetailSuccess,
   getUserListSuccess,
-  deleteUserSuccess
+  deleteUserSuccess,
 } from "./userAction";
 import { registerUser } from "../../helpers/api/authApi";
 import {
   getUserDetailsApi,
   updateUserDetailsApi,
   getAllUserByRoleApi,
-  deleteUserApi
+  deleteUserApi,
 } from "../../helpers/api/userApi";
 import toastr from "toastr";
 
@@ -101,8 +101,8 @@ function* updateUserDetailSaga({ payload }) {
 function* deleteUserSaga({ payload }) {
   yield put(updateUserLoader(true));
   try {
-    const { userId } = payload;
-    const response = yield call(deleteUserApi, userId);
+    const { userId, role } = payload;
+    const response = yield call(deleteUserApi, userId, role);
     toastr.success("User deleted successfully");
     yield put(deleteUserSuccess(response.response_data));
   } catch (error) {
