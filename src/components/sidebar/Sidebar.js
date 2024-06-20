@@ -26,6 +26,7 @@ import PropTypes from "prop-types";
 // Assets
 import { IoMenuOutline } from "react-icons/io5";
 import { MdMenu, MdTurnLeft } from "react-icons/md";
+import { IconConstantType } from "constants/iconConstant";
 function Sidebar(props) {
   const { routes, loggedInUser, sidebarVisibility, setSidebarVisibility } =
     props;
@@ -67,7 +68,7 @@ function Sidebar(props) {
             <IconButton
               icon={
                 <Icon
-                  as={sidebarVisibility ? MdMenu : MdTurnLeft}
+                  as={sidebarVisibility ? IconConstantType.MD_MENU : IconConstantType.MD_CHE_VRON_LEFT}
                   width="20px"
                   height="20px"
                   color="inherit"

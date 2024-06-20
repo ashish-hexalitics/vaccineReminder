@@ -2,14 +2,14 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { Icon } from "@chakra-ui/react";
 import {
-  // MdBarChart,
-  MdPerson,
   MdDashboard,
   MdVaccines,
   MdPersonAdd,
   MdAdminPanelSettings,
   MdPrivacyTip,
 } from "react-icons/md";
+
+import { IconConstantType } from "./constants/iconConstant";
 import { FaHospitalUser, FaUsersCog } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
 // Admin Imports
@@ -40,25 +40,53 @@ const routes = [
     name: "Dashboard",
     layout: "/admin",
     path: "/dashboard",
-    icon: <Icon as={MdDashboard} width="20px" height="20px" color="inherit" />,
+    icon: (
+      <Icon
+        as={IconConstantType.MD_DASHBOARD}
+        width="20px"
+        height="20px"
+        color="inherit"
+      />
+    ),
   },
   {
     name: "Vaccine Templates List",
     layout: "/admin",
-    path: "/vaccine-list",
-    icon: <Icon as={MdVaccines} width="20px" height="20px" color="inherit" />,
+    path: "/vaccine-template/list",
+    icon: (
+      <Icon
+        as={IconConstantType.MD_VACCINES}
+        width="20px"
+        height="20px"
+        color="inherit"
+      />
+    ),
   },
   {
     name: "Admin List",
     layout: "/admin",
     path: "/user-list",
-    icon: <Icon as={FaUsersCog} width="20px" height="20px" color="inherit" />,
+    icon: (
+      <Icon
+        as={IconConstantType.FA_USERS_COG}
+        width="20px"
+        height="20px"
+        color="inherit"
+      />
+    ),
   },
   {
     name: "Create User",
     layout: "/admin",
     path: "/create-users",
-    icon: <Icon as={MdPersonAdd} width="20px" height="20px" color="inherit" />,
+    icon: (
+      <Icon
+        as={IconConstantType.MD_PERSON_ADD}
+        width="20px"
+        height="20px"
+        color="inherit"
+      />
+    ),
   },
   // {
   //   name: "Create Doctors",
@@ -75,21 +103,40 @@ const getLayout = (roleName) => {
       layout: `/${roleName}`,
       path: "/dashboard",
       icon: (
-        <Icon as={MdDashboard} width="20px" height="20px" color="inherit" />
+        <Icon
+          as={IconConstantType.MD_DASHBOARD}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
       ),
     },
     {
       name: "Vaccine Templates List",
       layout: `/${roleName}`,
-      path: "/vaccine-list",
-      icon: <Icon as={MdVaccines} width="20px" height="20px" color="inherit" />,
+      path: "/vaccine-template/list",
+      icon: (
+        <Icon
+          as={IconConstantType.MD_VACCINES}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
+      ),
     },
   ];
 
   const superAdminRoutes = [
     {
       name: "Users Management",
-      icon: <Icon as={FaUsersCog} width="20px" height="20px" color="inherit" />,
+      icon: (
+        <Icon
+          as={IconConstantType.FA_USERS_COG}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
+      ),
       children: [
         {
           name: "Admin List",
@@ -97,7 +144,7 @@ const getLayout = (roleName) => {
           path: "/admin/list",
           icon: (
             <Icon
-              as={MdAdminPanelSettings}
+              as={IconConstantType.MD_ADMIN_PANEL_SETTINGS}
               width="20px"
               height="20px"
               color="inherit"
@@ -110,7 +157,7 @@ const getLayout = (roleName) => {
           path: "/doctor/list",
           icon: (
             <Icon
-              as={FaUserDoctor}
+              as={IconConstantType.FA_USER_DOCTOR}
               width="20px"
               height="20px"
               color="inherit"
@@ -123,7 +170,7 @@ const getLayout = (roleName) => {
           path: "/staff/list",
           icon: (
             <Icon
-              as={FaHospitalUser}
+              as={IconConstantType.FA_HOSPITAL_USER}
               width="20px"
               height="20px"
               color="inherit"
@@ -135,7 +182,12 @@ const getLayout = (roleName) => {
           layout: `/${roleName}`,
           path: "/create-users",
           icon: (
-            <Icon as={MdPersonAdd} width="20px" height="20px" color="inherit" />
+            <Icon
+              as={IconConstantType.MD_PERSON_ADD}
+              width="20px"
+              height="20px"
+              color="inherit"
+            />
           ),
         },
       ],
@@ -145,7 +197,12 @@ const getLayout = (roleName) => {
       layout: `/${roleName}`,
       path: "/permissions",
       icon: (
-        <Icon as={MdPrivacyTip} width="20px" height="20px" color="inherit" />
+        <Icon
+          as={IconConstantType.MD_PRIVACY_TIP}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
       ),
     },
   ];
@@ -153,7 +210,14 @@ const getLayout = (roleName) => {
   const adminRoutes = [
     {
       name: "Users Management",
-      icon: <Icon as={FaUsersCog} width="20px" height="20px" color="inherit" />,
+      icon: (
+        <Icon
+          as={IconConstantType.FA_USERS_COG}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
+      ),
       children: [
         {
           name: "Doctor List",
@@ -161,7 +225,7 @@ const getLayout = (roleName) => {
           path: "/doctor/list",
           icon: (
             <Icon
-              as={FaUserDoctor}
+              as={IconConstantType.FA_USER_DOCTOR}
               width="20px"
               height="20px"
               color="inherit"
@@ -174,7 +238,7 @@ const getLayout = (roleName) => {
           path: "/staff/list",
           icon: (
             <Icon
-              as={FaHospitalUser}
+              as={IconConstantType.FA_HOSPITAL_USER}
               width="20px"
               height="20px"
               color="inherit"
@@ -186,7 +250,12 @@ const getLayout = (roleName) => {
           layout: `/${roleName}`,
           path: "/create-users",
           icon: (
-            <Icon as={MdPersonAdd} width="20px" height="20px" color="inherit" />
+            <Icon
+              as={IconConstantType.MD_PERSON_ADD}
+              width="20px"
+              height="20px"
+              color="inherit"
+            />
           ),
         },
       ],
@@ -196,7 +265,12 @@ const getLayout = (roleName) => {
       layout: `/${roleName}`,
       path: "/permissions",
       icon: (
-        <Icon as={MdPrivacyTip} width="20px" height="20px" color="inherit" />
+        <Icon
+          as={IconConstantType.MD_PRIVACY_TIP}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
       ),
     },
   ];
@@ -277,7 +351,7 @@ const authProtectedRoutes = [
     component: <AdminDashboard />,
   },
   {
-    path: "/:roleName/vaccine-list",
+    path: "/:roleName/vaccine-template/list",
     component: <VaccineTemplates />,
   },
   {

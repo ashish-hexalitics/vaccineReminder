@@ -1,6 +1,7 @@
 import { Box, Icon, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
 import MiniStatistics from "../../components/card/MiniStatistics";
 import IconBox from "../../components/icons/IconBox";
+import { IconConstantType } from "../../constants/iconConstant";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { MdBarChart } from "react-icons/md";
@@ -18,7 +19,6 @@ const UserDashboard = () => {
     return { loggedInUser: state.authReducer.user };
   });
 
-  console.log(params);
   useEffect(() => {
     if (loggedInUser) {
       getDashboard(loggedInUser.id).then((res) => {
@@ -26,6 +26,23 @@ const UserDashboard = () => {
       });
     }
   }, [loggedInUser]);
+
+  const handleIcon = (propertyName) => {
+    switch (propertyName) {
+      case "admin":
+        return IconConstantType.MD_ADMIN_PANEL_SETTINGS;
+      case "doctor":
+        return IconConstantType.FA_USER_DOCTOR;
+      case "staff":
+        return IconConstantType.FA_HOSPITAL_USER;
+      case "patient":
+        return IconConstantType.FA_HOSPITAL_USER;
+      case "vaccine template":
+        return IconConstantType.MD_VACCINES;
+      default:
+        return IconConstantType.MD_DASHBOARD;
+    }
+  };
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
@@ -51,7 +68,7 @@ const UserDashboard = () => {
                       <Icon
                         w="32px"
                         h="32px"
-                        as={MdBarChart}
+                        as={handleIcon(dash?.property_name)}
                         color={brandColor}
                       />
                     }
@@ -59,6 +76,7 @@ const UserDashboard = () => {
                 }
                 name={dash?.property_name}
                 value={dash?.role_count}
+                roleName={params.roleName}
               />
             ))
         ) : (

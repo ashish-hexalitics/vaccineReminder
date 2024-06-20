@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Box,
@@ -127,11 +127,22 @@ export function SidebarLinks(props) {
   const CollapsibleLink = ({ route, sidebarVisibility }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    console.log(route);
-
     const toggleCollapse = () => {
       setIsOpen(!isOpen);
     };
+
+    useEffect(() => {
+      if (route.children) {
+        const anyChildActive = route.children.some((child) =>
+          activeRoute(child.path.toLowerCase())
+        );
+        setIsOpen(anyChildActive);
+      }
+    }, [location, route.children]);
+
+    const anyChildActive = route.children
+      ? route.children.some((child) => activeRoute(child.path.toLowerCase()))
+      : false;
 
     return (
       <>
@@ -142,19 +153,31 @@ export function SidebarLinks(props) {
             w="100%"
             justifyContent="space-between"
             alignItems="center"
+            color={anyChildActive ? activeIcon : textColor}
+            fontWeight={anyChildActive ? "bold" : "normal"}
           >
             <Flex align="center">
-              {route.icon && <Box me="12px">{route.icon}</Box>}
-              {<Text>{route.name}</Text>}
+              {route.icon && (
+                <Box me="12px" color={anyChildActive ? activeIcon : textColor}>
+                  {route.icon}
+                </Box>
+              )}
+              <Text color={anyChildActive ? activeColor : inactiveColor}>
+                {route.name}
+              </Text>
             </Flex>
-            {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            {isOpen ? (
+              <ChevronUpIcon color={anyChildActive ? activeColor : textColor} />
+            ) : (
+              <ChevronDownIcon
+                color={anyChildActive ? activeColor : textColor}
+              />
+            )}
           </Button>
         ) : (
-          <>
-            <Flex w="100%" alignItems="center" justifyContent="center">
-              {route.icon && <Box>{route.icon}</Box>}
-            </Flex>
-          </>
+          <Flex w="100%" alignItems="center" justifyContent="center">
+            {route.icon && <Box>{route.icon}</Box>}
+          </Flex>
         )}
         <Collapse in={isOpen} animateOpacity>
           <Box pl="20px">{route.children && createLinks(route.children)}</Box>
