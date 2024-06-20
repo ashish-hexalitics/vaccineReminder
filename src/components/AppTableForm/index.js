@@ -16,11 +16,28 @@ import {
 } from "@chakra-ui/react";
 import Card from "components/card/Card.js";
 
-function FormTable({ modules, onSubmit, tableTitle, dropdownOptions, onDropdownChange }) {
+function FormTable({
+  modules,
+  onSubmit,
+  tableTitle,
+  dropdownOptions,
+  onDropdownChange,
+  columns = [],
+}) {
   const textColor = useColorModeValue("gray.700", "white");
   const headerBgColor = useColorModeValue("gray.50", "gray.700");
   const rowHoverColor = useColorModeValue("gray.100", "gray.600");
   const borderColor = useColorModeValue("gray.200", "gray.600");
+
+  const renderCheckbox = (module, permissionType) => (
+    <Td borderColor={borderColor}>
+      <Checkbox
+        colorScheme="blue"
+        isChecked={module[permissionType]}
+        onChange={(e) => module.onChange(permissionType, e.target.checked)}
+      />
+    </Td>
+  );
 
   return (
     <Card
@@ -39,7 +56,7 @@ function FormTable({ modules, onSubmit, tableTitle, dropdownOptions, onDropdownC
           {tableTitle}
         </Text>
         <Select
-          placeholder="Select option"
+          placeholder="Select User Roles"
           onChange={onDropdownChange}
           bg={useColorModeValue("white", "gray.800")}
           borderColor={borderColor}
@@ -57,18 +74,11 @@ function FormTable({ modules, onSubmit, tableTitle, dropdownOptions, onDropdownC
         <Table variant="simple" colorScheme="gray" mb="24px">
           <Thead bg={headerBgColor}>
             <Tr>
-              <Th color={textColor} borderColor={borderColor}>
-                Module
-              </Th>
-              <Th color={textColor} borderColor={borderColor}>
-                Create
-              </Th>
-              <Th color={textColor} borderColor={borderColor}>
-                Delete
-              </Th>
-              <Th color={textColor} borderColor={borderColor}>
-                Update
-              </Th>
+              {columns.map((column, index) => (
+                <Th key={index} color={textColor} borderColor={borderColor}>
+                  {column}
+                </Th>
+              ))}
             </Tr>
           </Thead>
           <Tbody>
@@ -82,33 +92,10 @@ function FormTable({ modules, onSubmit, tableTitle, dropdownOptions, onDropdownC
                 <Td color={textColor} borderColor={borderColor}>
                   {module.name}
                 </Td>
-                <Td borderColor={borderColor}>
-                  <Checkbox
-                    colorScheme="blue"
-                    isChecked={module.create}
-                    onChange={(e) =>
-                      module.onChange("create", e.target.checked)
-                    }
-                  />
-                </Td>
-                <Td borderColor={borderColor}>
-                  <Checkbox
-                    colorScheme="blue"
-                    isChecked={module.delete}
-                    onChange={(e) =>
-                      module.onChange("delete", e.target.checked)
-                    }
-                  />
-                </Td>
-                <Td borderColor={borderColor}>
-                  <Checkbox
-                    colorScheme="blue"
-                    isChecked={module.update}
-                    onChange={(e) =>
-                      module.onChange("update", e.target.checked)
-                    }
-                  />
-                </Td>
+                {renderCheckbox(module, "create")}
+                {renderCheckbox(module, "delete")}
+                {renderCheckbox(module, "update")}
+                {renderCheckbox(module, "read")}
               </Tr>
             ))}
           </Tbody>

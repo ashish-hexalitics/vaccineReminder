@@ -18,19 +18,7 @@ const CreateVaccineTemplates = () => {
   }, []);
 
   const handleSubmit = (formikValues, formik) => {
-    console.log(formikValues,formik,"Submit")
-    // formik.validateForm().then((errors) => {
-    //   if (Object.keys(errors).length === 0) {
-    //     console.log(formikValues, "formikValues>>");
-    //   } else {
-    //     const touchedFields = {};
-    //     Object.keys(errors).forEach((field) => {
-    //       touchedFields[field] = true;
-    //     });
-    //     formik.setTouched(touchedFields);
-    //     console.log("Validation errors:", errors);
-    //   }
-    // });
+    console.log(formikValues, formik, "Submit");
   };
 
   const fields = formFields(roleData);
@@ -38,14 +26,15 @@ const CreateVaccineTemplates = () => {
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <AppForm
-        formTitle="Create User"
+        formTitle="Create Vaccine Template"
         initialValues={{
           name: "",
           email: "",
-          password: "",
+          vaccineDetails: [{ range: "", timePeriod: "", month: "", week: "", days: "", description: "" }],
         }}
         formFields={fields}
         handleFormSubmit={handleSubmit}
+        formType="collapsible"
       />
     </Box>
   );

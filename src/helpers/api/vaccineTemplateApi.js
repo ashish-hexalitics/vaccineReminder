@@ -2,7 +2,7 @@ import { get } from "../api_helper";
 
 const getVaccineTemplates = async () => {
   try {
-    const data = await get(`vaccine/getvaccinetemplatelist`, {
+    const data = await get(`vaccine/get_vaccine_template_list`, {
       headers: {
         "Content-Type": "application/json",
       },

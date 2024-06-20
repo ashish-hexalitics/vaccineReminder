@@ -6,43 +6,65 @@ import {
   resetRolesUser,
   userRoles as getUserRoles,
 } from "../../store/userRoles/roleAction";
+import { resetModules, getModules } from "../../store/modules/modulesAction";
+import { useParams } from "react-router-dom";
 
 function Permissions() {
   const dispatch = useDispatch();
+  const params = useParams();
 
-  const [modules, setModules] = useState([
-    { name: "User Management", create: false, delete: false, update: false },
-    { name: "Roles", create: false, delete: false, update: false },
-    // Add more modules as needed
-  ]);
-  const [roleData, setRoleData] = useState([]);
+  const [permissions, setPermissions] = useState([]);
 
-  const { loggedInUser, userRoles } = useSelector((state) => {
+  const { loggedInUser, modules, userRoles } = useSelector((state) => {
     return {
       userRoles: state.roleReducer.roles,
       loggedInUser: state.authReducer.user,
+      modules: state.modulesReducer.modules,
     };
   });
 
   useEffect(() => {
     dispatch(getUserRoles());
+    dispatch(getModules());
     return () => {
       dispatch(resetRolesUser());
+      dispatch(resetModules());
     };
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log(params);
+    if (modules && Array.isArray(modules)) {
+      setPermissions(
+        modules
+          .map((module) => ({
+            name: module?.module_name,
+            create: false,
+            delete: false,
+            update: false,
+            read: false,
+          }))
+          .filter(
+            (module) =>
+              module.name.toLowerCase() !== params?.roleName?.toLowerCase() &&
+              module.name.toLowerCase() !== "superadmin"
+          )
+      );
+    }
+  }, [modules]);
 
   const handleCheckboxChange = (index, field, value) => {
-    const newModules = [...modules];
-    newModules[index][field] = value;
-    setModules(newModules);
+    const newPermissions = [...permissions];
+    newPermissions[index][field] = value;
+    setPermissions(newPermissions);
   };
 
   const handleSubmit = () => {
-    console.log("Submitted Permissions:", modules);
+    console.log("Submitted Permissions:", permissions);
     // Handle the form submission as needed
   };
 
-  const moduleData = modules.map((module, index) => ({
+  const moduleData = permissions.map((module, index) => ({
     ...module,
     onChange: (field, value) => handleCheckboxChange(index, field, value),
   }));
@@ -62,7 +84,6 @@ function Permissions() {
     // Handle the dropdown selection change as needed
   };
 
-  console.log(userRoles, "userRoles");
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid
@@ -71,6 +92,7 @@ function Permissions() {
         spacing={{ base: "20px", xl: "20px" }}
       >
         <AppTableForm
+          columns={["Module", "Create", "Delete", "Update", "Read"]}
           modules={moduleData}
           onSubmit={handleSubmit}
           tableTitle="Manage Permissions"

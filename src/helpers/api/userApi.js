@@ -3,13 +3,14 @@ import {
   USER_ROUTES,
   GET_USER_LIST,
   GET_USER_INFO,
+  GET_USER_ROLES,
   STAFF,
   DOCTOR,
 } from "../constant";
 
 const getMe = async (userId) => {
   try {
-    const data = await get(`${USER_ROUTES}/getuserinfo?user_id=${userId}`, {
+    const data = await get(`${USER_ROUTES+GET_USER_INFO}?user_id=${userId}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -23,7 +24,7 @@ const getMe = async (userId) => {
 
 const getAllAdmin = async (userId) => {
   try {
-    const data = await get(`${USER_ROUTES}/viewalladmins`, {
+    const data = await get(`${USER_ROUTES}/view_all_admins`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -47,7 +48,7 @@ const getAllUsers = async (userId) => {
 
 const getAllRoles = async (userId) => {
   try {
-    const data = await get(`${USER_ROUTES}/getuserroles`);
+    const data = await get(`${USER_ROUTES+GET_USER_ROLES}`);
     return data;
   } catch (error) {
     console.error("error:", error);
@@ -61,9 +62,9 @@ const getAllUserByRoleApi = (roleName) =>
 const getAllUserApi = (roleName) => {
   switch (roleName) {
     case STAFF:
-      return get(`${USER_ROUTES}/get${STAFF}list`);
+      return get(`${USER_ROUTES}/get_${STAFF}_list`);
     case DOCTOR:
-      return get(`${USER_ROUTES}/get${DOCTOR}list`);
+      return get(`${USER_ROUTES}/get_${DOCTOR}_list`);
     default:
       throw new Error("Invalid roleName");
   }
@@ -76,7 +77,7 @@ const getUserDetailsApi = (userId) =>
 const updateUserDetailsApi = (slug, data) =>
   put(`${USER_ROUTES}/${slug}`, data);
 
-const deleteUserApi = (userId, role) => del(`${USER_ROUTES}/delete${role}`);
+const deleteUserApi = (userId, role) => del(`${USER_ROUTES}/delete_${role}`);
 
 export {
   getMe,

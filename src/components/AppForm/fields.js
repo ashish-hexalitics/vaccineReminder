@@ -6,6 +6,8 @@ import AppPassword from "../AppPassword";
 import AppDate from "../AppDate";
 import AppEmail from "../AppEmail";
 import AppMultiSelect from "../AppMultiSelect";
+import AppMultiFieldsFields from "./AppMultiFieldsFields";
+import AppCheckBox from "../AppCheckBox";
 
 export const renderInputs = (field, formik) => {
   const commonProps = {
@@ -34,6 +36,10 @@ export const renderInputs = (field, formik) => {
       return <AppSelect {...commonProps} options={field.options} />;
     case "multi-select":
       return <AppMultiSelect {...commonProps} options={field.options} />;
+    case "multiFields":
+      return <AppMultiFieldsFields {...field} formik={formik} />;
+      case "checkbox":
+        return <AppCheckBox {...field} formik={formik} />;
     default:
       return null;
   }

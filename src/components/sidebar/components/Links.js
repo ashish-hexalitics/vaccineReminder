@@ -143,7 +143,7 @@ export function SidebarLinks(props) {
     const anyChildActive = route.children
       ? route.children.some((child) => activeRoute(child.path.toLowerCase()))
       : false;
-
+    console.log(route.children);
     return (
       <>
         {!sidebarVisibility ? (
@@ -175,8 +175,27 @@ export function SidebarLinks(props) {
             )}
           </Button>
         ) : (
-          <Flex w="100%" alignItems="center" justifyContent="center">
-            {route.icon && <Box>{route.icon}</Box>}
+          <Flex w="100%" alignItems="center" direction={'column'} justifyContent="center">
+            {route.icon && (
+              <Box
+                onClick={toggleCollapse}
+                color={anyChildActive ? activeIcon : textColor}
+              >
+                {route.icon}
+              </Box>
+            )}
+            {/* <Flex w="100%" direction={'column'} alignItems="center" justifyContent="center">
+              {route.children &&
+                route.children.map((routrChild, key) => (
+                  <Box
+                    onClick={toggleCollapse}
+                    color={anyChildActive ? activeIcon : textColor}
+                    key={key}
+                  >
+                    {routrChild.icon}
+                  </Box>
+                ))}
+            </Flex> */}
           </Flex>
         )}
         <Collapse in={isOpen} animateOpacity>

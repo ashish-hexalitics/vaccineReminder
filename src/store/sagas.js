@@ -3,6 +3,7 @@ import watchSignIn from './auth/authSaga';
 import watchCreateUser from './userConfigure/userConfigSaga';
 import watchVaccineTemplateSaga from "./vaccineTemplates/vaccineTemplateActionSaga";
 import watchUserRolesSaga from "./userRoles/userRolesSaga";
+import watchModulesSaga from "./modules/modulesSaga";
 
 
 function* rootSaga() {
@@ -10,7 +11,8 @@ function* rootSaga() {
     watchSignIn(),
     watchCreateUser(),
     watchVaccineTemplateSaga(),
-    watchUserRolesSaga()
+    watchUserRolesSaga(),
+    watchModulesSaga()
     // add other sagas here
   ]);
 }

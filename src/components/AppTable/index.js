@@ -39,11 +39,12 @@ export default function AppTable(props) {
     tableTitle = "",
     isMenu = false,
     isAddButton = false,
+    handleAddButton="",
     onView,
     onEdit,
     onDelete,
     onMore,
-    showAction=false
+    showAction = false,
   } = props;
 
   // Add SN and Actions columns dynamically
@@ -97,7 +98,7 @@ export default function AppTable(props) {
         label: "SN",
       },
       ...columnsData,
-      ...(showAction?[actionColumn]:[]),
+      ...(showAction ? [actionColumn] : []),
     ];
   }, [columnsData, onView, onEdit, onDelete, onMore]);
 
@@ -153,8 +154,14 @@ export default function AppTable(props) {
           {tableTitle}
         </Text>
         {isMenu && <Menu />}
-        {isAddButton && (
-          <Button h="44px" mb="10px" variant="solid" colorScheme="blue">
+        {isAddButton && handleAddButton && (
+          <Button
+            h="44px"
+            mb="10px"
+            variant="solid"
+            colorScheme="blue"
+            onClick={handleAddButton}
+          >
             ADD MORE
           </Button>
         )}
@@ -215,7 +222,8 @@ export default function AppTable(props) {
                     );
                   } else if (cell.column.Header === "STATUS") {
                     const cellProps = cell.render("Cell");
-                    const value = cellProps.props.cell.row.values[cell.column.id]
+                    const value =
+                      cellProps.props.cell.row.values[cell.column.id];
                     console.log(value);
                     data = (
                       <Stack direction="row">

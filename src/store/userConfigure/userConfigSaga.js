@@ -49,9 +49,9 @@ function* getUserSaga({ payload: { role, authRole } }) {
       yield put(getUserListSuccess({ dynamicList: responseData }));
     }else{
       const response = yield call(getAllUserApi, role);
-      console.log(role)
-      // const responseData = response.response_data;
-      // yield put(getUserListSuccess({ dynamicList: responseData }));
+      console.log(response,role)
+      const responseData = response.response_data;
+      yield put(getUserListSuccess({ dynamicList: responseData }));
     }
     // if (role == "admin") {
     //   yield put(getUserListSuccess({ adminList: responseData }));

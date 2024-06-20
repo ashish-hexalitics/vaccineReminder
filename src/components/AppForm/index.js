@@ -20,9 +20,9 @@ function AppForm({
   handleFormSubmit,
   formTitle = "",
   showCancel = false,
+  formType = "normal",
 }) {
   const textColor = useColorModeValue("secondaryGray.900", "white");
-
   const validationSchema = createValidationSchema(formFields);
   const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ function AppForm({
             fontSize="22px"
             fontWeight="700"
             lineHeight="100%"
-            textTransform={'capitalize'}
+            textTransform="capitalize"
           >
             {formTitle}
           </Text>
@@ -44,27 +44,45 @@ function AppForm({
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
-            //  e.preventDefault()
             handleFormSubmit(values, actions);
           }}
         >
           {(formik) => (
             <Form>
-              <Grid
-                templateColumns={{
-                  base: "repeat(1, 1fr)",
-                  sm: "repeat(2, 1fr)",
-                  lg: "repeat(3, 1fr)",
-                }}
-                columnGap={2}
-                px="25px"
-              >
-                {formFields.map((field, index) => (
-                  <GridItem colSpan={1} key={index}>
-                    {renderInputs(field, formik)}
-                  </GridItem>
-                ))}
-              </Grid>
+              {formType === "normal" && (
+                <Grid
+                  templateColumns={{
+                    base: "repeat(1, 1fr)",
+                    sm: "repeat(2, 1fr)",
+                    lg: "repeat(3, 1fr)",
+                  }}
+                  columnGap={2}
+                  px="25px"
+                >
+                  {formFields.map((field, index) => (
+                    <GridItem key={index}>
+                      {renderInputs(field, formik)}
+                    </GridItem>
+                  ))}
+                </Grid>
+              )}
+              {formType === "collapsible" && (
+                <Grid
+                  templateColumns={{
+                    base: "repeat(1, 1fr)",
+                    sm: "repeat(1, 1fr)",
+                    lg: "repeat(1, 1fr)",
+                  }}
+                  columnGap={2}
+                  px="25px"
+                >
+                  {formFields.map((field, index) => (
+                    <GridItem key={index}>
+                      {renderInputs(field, formik)}
+                    </GridItem>
+                  ))}
+                </Grid>
+              )}
               <Flex px="25px" justify="flex-end" mb="20px" align="center">
                 {showCancel && (
                   <Button

@@ -1,40 +1,71 @@
-export const formFields = (roles) => {
-  return [
-    {
-      name: "name",
-      label: "Name",
-      type: "text",
-      placeholder: "Enter name",
-    },
-    {
-      name: "email",
-      label: "Email",
-      type: "email",
-      placeholder: "Enter email",
-    },
-    {
-      name: "date_of_birth",
-      label: "Date of Birth",
-      type: "date",
-    },
-    {
-      name: "mobile_number",
-      label: "Mobile Number",
-      type: "tel",
-      placeholder: "Enter mobile number",
-    },
-    {
-      name: "role_id",
-      label: "Role",
-      type: "select",
-      placeholder: "Select role",
-      options: roles.map((role) => ({ label: role.role_name, value: role.id })),
-    },
-    {
-      name: "password",
-      label: "Password",
-      type: "password",
-      placeholder: "Enter password",
-    },
-  ];
-};
+export const formFields = (roleData) => [
+  {
+    name: "vaccineDetails",
+    label: "Vaccine Details",
+    type: "multiFields",
+    fields: [
+      {
+        name: "name",
+        label: "Name",
+        placeholder: "Name",
+        type: "text",
+      },
+      {
+        name: "description",
+        label: "Description",
+        placeholder: "Description",
+        type: "text",
+      },
+      {
+        name: "range",
+        label: "Range",
+        placeholder: "Range",
+        type: "text",
+      },
+      {
+        name: "timePeriod",
+        label: "Time Period",
+        placeholder: "Time Period",
+        type: "select",
+        options: [
+          { value: "Option 1", label: "Option 2" },
+          { value: "Option 1", label: "Option 2" },
+          { value: "Option 1", label: "Option 2" },
+        ],
+      },
+      {
+        name: "month",
+        label: "Month",
+        placeholder: "Month",
+        type: "select",
+        options: [
+          { value: "Option 1", label: "Option 2" },
+          { value: "Option 1", label: "Option 2" },
+          { value: "Option 1", label: "Option 2" },
+        ],
+      },
+      {
+        name: "week",
+        label: "Week",
+        placeholder: "Week",
+        type: "select",
+        options: [
+          { value: "Option 1", label: "Option 2" },
+          { value: "Option 1", label: "Option 2" },
+          { value: "Option 1", label: "Option 2" },
+        ],
+      },
+      {
+        name: "days",
+        label: "Days",
+        placeholder: "Days",
+        type: "text",
+      },
+      {
+        name: "isMandatory",
+        label: "Is Mandatory",
+        type: "checkbox",
+      },
+    ],
+  },
+];

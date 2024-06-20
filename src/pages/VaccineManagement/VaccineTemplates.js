@@ -8,6 +8,7 @@ import {
   resetVaccineTemplateList,
 } from "../../store/vaccineTemplates/vaccineTemplateAction";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 const columns = [
   {
@@ -44,6 +45,8 @@ const columns = [
 
 export default function VaccineTemplateList() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params = useParams();
 
   const { vaccineTemplateReducer } = useSelector((state) => {
     return {
@@ -76,6 +79,10 @@ export default function VaccineTemplateList() {
     dispatch(getVaccineTemplateList());
   };
 
+  const handleAddButton = () => {
+    navigate(`/${params.roleName}/create/vaccine-template`);
+  };
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid
@@ -87,6 +94,8 @@ export default function VaccineTemplateList() {
           <AppTable
             columnsData={columns}
             tableData={vaccineTemplates}
+            isAddButton={true}
+            handleAddButton={handleAddButton}
           />
         ) : (
           <AppLoader />

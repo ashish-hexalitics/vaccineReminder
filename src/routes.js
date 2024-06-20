@@ -24,6 +24,7 @@ import RTL from "./views/admin/rtl";
 import Login from "./pages/Auth/Login";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import VaccineTemplates from "./pages/VaccineManagement/VaccineTemplates";
+import CreateVaccineTemplates from "./pages/VaccineManagement/CreateVaccineTemplates";
 import AdminList from "./pages/AdminManagement/AdminList";
 import UserList from "./pages/UsersManagement/UserList";
 import CreateUser from "./pages/UsersManagement/CreateUser";
@@ -353,6 +354,10 @@ const authProtectedRoutes = [
   {
     path: "/:roleName/vaccine-template/list",
     component: <VaccineTemplates />,
+  },
+  {
+    path: "/:roleName/create/vaccine-template",
+    component: <CreateVaccineTemplates />,
   },
   {
     path: "/:roleName/edit/:userType/:userId",
