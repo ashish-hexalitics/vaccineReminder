@@ -1,7 +1,7 @@
 // src/utils/apiUtils.js
 
 import axios from "axios";
-// import toastr from 'toastr';
+import toastr from "toastr";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://192.168.1.21:8071/api";
 
@@ -21,45 +21,19 @@ axiosApi.interceptors.request.use(function (config) {
   return config;
 });
 
+const isLogin = localStorage.getItem("authToken");
+// const authUser = localStorage.getItem("authUser");
+// const parseUser = authUser && JSON.parse(authUser);
+// const role = localStorage.getItem('authRole');
 axiosApi.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // const isLogin = localStorage.getItem('authToken');
-    // const role = localStorage.getItem('authRole');
-    // const authUser = localStorage.getItem('authUser');
-
-    // if (isLogin && error.response?.status === 401) {
-    //   const parseUser = authUser && JSON.parse(authUser);
-    //   const token = parseUser.activeToken;
-    //   const refreshToken = localStorage.getItem('refreshToken');
-
-    //   if (refreshToken && isLogin === token) {
-    //     try {
-    //       const res = await axiosApi.post(
-    //         '/users/refreshToken',
-    //         { refreshToken: `Bearer ${refreshToken}` },
-    //         {
-    //           headers: {
-    //             'refresh-token': `Bearer ${refreshToken}`,
-    //           },
-    //         }
-    //       );
-
-    //       localStorage.setItem('authToken', res.data.activeToken);
-    //       localStorage.setItem('refreshToken', res.data.refreshToken);
-    //       localStorage.setItem('authUser', JSON.stringify(res.data.data.user));
-    //       setTimeout(() => {
-    //         window.location.reload();
-    //       }, 1500);
-    //     } catch (err) {
-    //       console.error('Error refreshing token:', err);
-    //       handleAuthRedirect(role);
-    //       localStorage.clear();
-    //     }
-    //   } else {
-    //     handleAuthRedirect(role);
-    //   }
-    // }
+    if (isLogin && error.response?.status === 401) {
+      localStorage.clear();
+      toastr.error('session expired login again.');
+      // window.location.href = `${window.location.protocol}/${window.location.host}/auth/sign-in`;
+      window.location.href = `/auth/sign-in`;
+    }
 
     return Promise.reject(error);
   }
@@ -70,7 +44,6 @@ export async function get(url, config = {}) {
 }
 
 export async function post(url, data, config = {}) {
-  console.log(url, "url");
   return axiosApi
     .post(url, { ...data }, { ...config })
     .then((response) => response.data);

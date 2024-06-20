@@ -20,6 +20,7 @@ import {
   getUserDetailsApi,
   updateUserDetailsApi,
   getAllUserByRoleApi,
+  getAllUserApi,
   deleteUserApi,
 } from "../../helpers/api/userApi";
 import toastr from "toastr";
@@ -39,13 +40,19 @@ function* createUserSaga({ payload }) {
   }
 }
 
-function* getUserSaga({ payload: { role } }) {
+function* getUserSaga({ payload: { role, authRole } }) {
   yield put(updateUserLoader(true));
   try {
-    const response = yield call(getAllUserByRoleApi, role);
-    const responseData = response.response_data;
-    yield put(getUserListSuccess({ dynamicList: responseData }));
-
+    if(authRole==="Superadmin"){
+      const response = yield call(getAllUserByRoleApi, role);
+      const responseData = response.response_data;
+      yield put(getUserListSuccess({ dynamicList: responseData }));
+    }else{
+      const response = yield call(getAllUserApi, role);
+      console.log(role)
+      // const responseData = response.response_data;
+      // yield put(getUserListSuccess({ dynamicList: responseData }));
+    }
     // if (role == "admin") {
     //   yield put(getUserListSuccess({ adminList: responseData }));
     // } else if (role == "staff") {

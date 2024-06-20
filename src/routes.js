@@ -8,15 +8,10 @@ import {
   MdVaccines,
   MdPersonAdd,
   MdAdminPanelSettings,
-  MdPrivacyTip
+  MdPrivacyTip,
 } from "react-icons/md";
-import {
-  FaHospitalUser,
-  FaUsersCog
-} from "react-icons/fa";
-import {
-  FaUserDoctor,
-} from "react-icons/fa6";
+import { FaHospitalUser, FaUsersCog } from "react-icons/fa";
+import { FaUserDoctor } from "react-icons/fa6";
 // Admin Imports
 // import MainDashboard from "./views/admin/default";
 import NFTMarketplace from "./views/admin/marketplace";
@@ -37,7 +32,6 @@ import ViewUser from "./pages/UsersManagement/ViewUser";
 import DoctorList from "./pages/DoctorManagement/DoctorList";
 import StaffList from "./pages/StaffManagement/StaffList";
 import Permissions from "./pages/PermissionsManagement/Permissions";
-
 
 import Home from "./views/Landing";
 
@@ -75,12 +69,14 @@ const routes = [
 ];
 
 const getLayout = (roleName) => {
-  return [
+  const commonRoutes = [
     {
       name: "Dashboard",
       layout: `/${roleName}`,
       path: "/dashboard",
-      icon: <Icon as={MdDashboard} width="20px" height="20px" color="inherit" />,
+      icon: (
+        <Icon as={MdDashboard} width="20px" height="20px" color="inherit" />
+      ),
     },
     {
       name: "Vaccine Templates List",
@@ -88,6 +84,9 @@ const getLayout = (roleName) => {
       path: "/vaccine-list",
       icon: <Icon as={MdVaccines} width="20px" height="20px" color="inherit" />,
     },
+  ];
+
+  const superAdminRoutes = [
     {
       name: "Users Management",
       icon: <Icon as={FaUsersCog} width="20px" height="20px" color="inherit" />,
@@ -97,7 +96,12 @@ const getLayout = (roleName) => {
           layout: `/${roleName}`,
           path: "/admin/list",
           icon: (
-            <Icon as={MdAdminPanelSettings} width="20px" height="20px" color="inherit" />
+            <Icon
+              as={MdAdminPanelSettings}
+              width="20px"
+              height="20px"
+              color="inherit"
+            />
           ),
         },
         {
@@ -118,7 +122,12 @@ const getLayout = (roleName) => {
           layout: `/${roleName}`,
           path: "/staff/list",
           icon: (
-            <Icon as={FaHospitalUser} width="20px" height="20px" color="inherit" />
+            <Icon
+              as={FaHospitalUser}
+              width="20px"
+              height="20px"
+              color="inherit"
+            />
           ),
         },
         {
@@ -135,8 +144,67 @@ const getLayout = (roleName) => {
       name: "User Permissions",
       layout: `/${roleName}`,
       path: "/permissions",
-      icon: <Icon as={MdPrivacyTip} width="20px" height="20px" color="inherit" />,
+      icon: (
+        <Icon as={MdPrivacyTip} width="20px" height="20px" color="inherit" />
+      ),
     },
+  ];
+
+  const adminRoutes = [
+    {
+      name: "Users Management",
+      icon: <Icon as={FaUsersCog} width="20px" height="20px" color="inherit" />,
+      children: [
+        {
+          name: "Doctor List",
+          layout: `/${roleName}`,
+          path: "/doctor/list",
+          icon: (
+            <Icon
+              as={FaUserDoctor}
+              width="20px"
+              height="20px"
+              color="inherit"
+            />
+          ),
+        },
+        {
+          name: "Staff List",
+          layout: `/${roleName}`,
+          path: "/staff/list",
+          icon: (
+            <Icon
+              as={FaHospitalUser}
+              width="20px"
+              height="20px"
+              color="inherit"
+            />
+          ),
+        },
+        {
+          name: "Create User",
+          layout: `/${roleName}`,
+          path: "/create-users",
+          icon: (
+            <Icon as={MdPersonAdd} width="20px" height="20px" color="inherit" />
+          ),
+        },
+      ],
+    },
+    {
+      name: "User Permissions",
+      layout: `/${roleName}`,
+      path: "/permissions",
+      icon: (
+        <Icon as={MdPrivacyTip} width="20px" height="20px" color="inherit" />
+      ),
+    },
+  ];
+
+  return [
+    ...commonRoutes,
+    ...(roleName === "Superadmin" ? superAdminRoutes : []),
+    ...(roleName === "Admin" ? adminRoutes : []),
   ];
 };
 
@@ -212,10 +280,6 @@ const authProtectedRoutes = [
     path: "/:roleName/vaccine-list",
     component: <VaccineTemplates />,
   },
-  // {
-  //   path: "/:roleName/admin/list",
-  //   component: <AdminList />,
-  // },
   {
     path: "/:roleName/edit/:userType/:userId",
     component: <EditUser />,
@@ -236,10 +300,6 @@ const authProtectedRoutes = [
     path: "/:roleName/permissions",
     component: <Permissions />,
   },
-  // {
-  //   path: "/:roleName/staff/list",
-  //   component: <StaffList />,
-  // },
   {
     path: "/:roleName/nft-marketplace",
     component: <NFTMarketplace />,

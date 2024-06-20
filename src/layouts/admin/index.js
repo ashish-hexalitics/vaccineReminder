@@ -5,7 +5,7 @@ import Footer from "components/footer/FooterAdmin.js";
 import Navbar from "components/navbar/NavbarAdmin.js";
 import Sidebar from "components/sidebar/Sidebar.js";
 import { SidebarContext } from "contexts/SidebarContext";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Route } from "react-router-dom";
 import { getLayout } from "../../routes";
 
@@ -18,7 +18,16 @@ export default function DashboardLayout(props) {
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const [sidebarVisibility, setSidebarVisibility] = useState(false);
-  const { loggedInUser } = useContext(AppContext);
+  const { fetchUserData, loggedInUser } = useContext(AppContext);
+
+  const authUser = localStorage.getItem("authUser");
+
+  useEffect(() => {
+    if (typeof authUser === "string") {
+      const user = JSON.parse(authUser);
+      user && fetchUserData(JSON.parse(user?.id));
+    }
+  }, [authUser]);
 
   const getActiveRoute = (routes) => {
     let activeRoute = "Default Brand Text";
@@ -120,68 +129,74 @@ export default function DashboardLayout(props) {
   const { onOpen } = useDisclosure();
   document.documentElement.dir = "ltr";
 
-  const renderAdminLayout = getLayout(loggedInUser?.role_name);
+  const renderAdminLayout = loggedInUser && getLayout(loggedInUser?.role_name);
   return (
     <Box>
-      <Box>
-        <SidebarContext.Provider value={{ toggleSidebar, setToggleSidebar }}>
-          <Sidebar
-            routes={renderAdminLayout}
-            sidebarVisibility={sidebarVisibility}
-            setSidebarVisibility={setSidebarVisibility}
-            display="none"
-            {...rest}
-          />
-          <Box
-            float="right"
-            minHeight="100vh"
-            height="100%"
-            overflow="auto"
-            position="relative"
-            maxHeight="100%"
-            w={{
-              base: "100%",
-              xl: sidebarVisibility ? "calc( 100% - 90px )" : "calc( 100% - 290px )",
-            }}
-            maxWidth={{
-              base: "100%",
-              xl: sidebarVisibility  ? "calc( 100% - 90px )" : "calc( 100% - 290px )",
-            }}
-            transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
-            transitionDuration=".2s, .2s, .35s"
-            transitionProperty="top, bottom, width"
-            transitionTimingFunction="linear, linear, ease"
-          >
-            <Portal>
-              <Box>
-                <Navbar
-                  onOpen={onOpen}
-                  logoText={"Vaccine Reminders"}
-                  brandText={getActiveRoute(renderAdminLayout)}
-                  secondary={getActiveNavbar(renderAdminLayout)}
-                  message={getActiveNavbarText(renderAdminLayout)}
-                  fixed={fixed}
-                  {...rest}
-                  loggedInUser={loggedInUser}
-                  sidebarVisibility={sidebarVisibility}
-                />
-              </Box>
-            </Portal>
+      {loggedInUser && (
+        <Box>
+          <SidebarContext.Provider value={{ toggleSidebar, setToggleSidebar }}>
+            <Sidebar
+              routes={renderAdminLayout}
+              sidebarVisibility={sidebarVisibility}
+              setSidebarVisibility={setSidebarVisibility}
+              display="none"
+              {...rest}
+            />
             <Box
-              mx="auto"
-              p={{ base: "20px", md: "30px" }}
-              pe="20px"
-              minH="100vh"
-              pt="50px"
+              float="right"
+              minHeight="100vh"
+              height="100%"
+              overflow="auto"
+              position="relative"
+              maxHeight="100%"
+              w={{
+                base: "100%",
+                xl: sidebarVisibility
+                  ? "calc( 100% - 90px )"
+                  : "calc( 100% - 290px )",
+              }}
+              maxWidth={{
+                base: "100%",
+                xl: sidebarVisibility
+                  ? "calc( 100% - 90px )"
+                  : "calc( 100% - 290px )",
+              }}
+              transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
+              transitionDuration=".2s, .2s, .35s"
+              transitionProperty="top, bottom, width"
+              transitionTimingFunction="linear, linear, ease"
             >
-              {rest.children}
+              <Portal>
+                <Box>
+                  <Navbar
+                    onOpen={onOpen}
+                    logoText={"Vaccine Reminders"}
+                    brandText={getActiveRoute(renderAdminLayout)}
+                    secondary={getActiveNavbar(renderAdminLayout)}
+                    message={getActiveNavbarText(renderAdminLayout)}
+                    fixed={fixed}
+                    {...rest}
+                    loggedInUser={loggedInUser}
+                    sidebarVisibility={sidebarVisibility}
+                  />
+                </Box>
+              </Portal>
+              <Box
+                mx="auto"
+                p={{ base: "20px", md: "30px" }}
+                pe="20px"
+                minH="100vh"
+                pt="50px"
+              >
+                {rest.children}
+              </Box>
+              <Box>
+                <Footer />
+              </Box>
             </Box>
-            <Box>
-              <Footer />
-            </Box>
-          </Box>
-        </SidebarContext.Provider>
-      </Box>
+          </SidebarContext.Provider>
+        </Box>
+      )}
     </Box>
   );
 }

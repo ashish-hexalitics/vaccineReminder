@@ -51,13 +51,17 @@ export default function UserList() {
   });
 
   useEffect(() => {
-    console.log("Fetching user list for role:", params?.userRole);
-    dispatch(getUserList(params?.userRole));
+    dispatch(getUserList(params?.userRole,params?.roleName));
+//     if(params?.roleName==="Superadmin") {
+//     }else if(params?.roleName==="Admin"){
+// // getAllUserApi
+//     }
     return () => {
       console.log("Resetting user details");
       dispatch(resetUserDetail());
     };
   }, [dispatch, params?.userRole]);
+  
   const handleActions = (data, actionType) => {
     if (actionType === "EDIT") {
       navigate(`/${params.roleName}/edit/${params.userRole}/${data.id}`);

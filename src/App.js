@@ -1,9 +1,9 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import "assets/css/App.css";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
-import AuthLayout from "./layouts/auth";
+// import AuthLayout from "./layouts/auth";
 import AdminLayout from "./layouts/admin";
-import RtlLayout from "./layouts/rtl";
+// import RtlLayout from "./layouts/rtl";
 import { ThemeEditorProvider } from "@hypertheme-editor/chakra-ui";
 import {
   publicRoutes,
@@ -11,21 +11,10 @@ import {
   authProtectedRoutes,
   Authmiddleware,
 } from "./routes";
-import { AppContext } from "./contexts/AppContext";
 import "toastr/build/toastr.min.css"
 
 
 function App() {
-  const { fetchUserData } = useContext(AppContext);
-  const authUser = localStorage.getItem("authUser");
-
-  useEffect(() => {
-    if (typeof authUser === "string") {
-      const user = JSON.parse(authUser);
-      user && fetchUserData(JSON.parse(user?.id));
-    }
-  }, [authUser]);
-
   return (
     <ThemeEditorProvider>
       <BrowserRouter>

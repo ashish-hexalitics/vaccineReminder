@@ -14,10 +14,10 @@ import {
   DELETE_USER_SUCCESS,
 } from "./actionType";
 
-const getUserList = (role) => {
+const getUserList = (role, authRole) => {
   return {
     type: GET_USER_LIST,
-    payload: { role },
+    payload: { role, authRole },
   };
 };
 
@@ -90,10 +90,10 @@ const updateUserDetailSuccess = (data) => {
   };
 };
 
-const deleteUser = (userId,role) => {
+const deleteUser = (userId, role) => {
   return {
     type: DELETE_USER,
-    payload: { userId,role },
+    payload: { userId, role },
   };
 };
 
