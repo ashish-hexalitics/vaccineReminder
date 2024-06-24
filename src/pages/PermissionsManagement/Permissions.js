@@ -78,10 +78,11 @@ function Permissions(props) {
 
   useEffect(() => {
     if (
-      params?.roleName?.toLowerCase() !== "Superadmin" &&
+      params?.roleName?.toLowerCase() !== "superadmin" &&
       userPermissionsRouteAccess &&
       !userPermissionsRouteAccess.create_permission
     ) {
+      console.log(`/${params?.roleName}/dashboard`)
       navigate(`/${params?.roleName}/dashboard`);
     }
   }, [userPermissionsRouteAccess]);

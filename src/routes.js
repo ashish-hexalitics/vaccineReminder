@@ -98,9 +98,16 @@ const routes = [
 ];
 
 const getLayout = (roleName, loggedInUser, permissions) => {
+  console.log(permissions);
 
   const userPermissions = permissions.find(
     (permission) => permission?.module_name === "user permissions"
+  );
+  const staffPermissions = permissions.find(
+    (permission) => permission?.module_name === "staff"
+  );
+  const doctorPermissions = permissions.find(
+    (permission) => permission?.module_name === "doctor"
   );
   const commonRoutes = [
     {
@@ -224,32 +231,40 @@ const getLayout = (roleName, loggedInUser, permissions) => {
         />
       ),
       children: [
-        {
-          name: "Doctor List",
-          layout: `/${roleName}`,
-          path: "/doctor/list",
-          icon: (
-            <Icon
-              as={IconConstantType.FA_USER_DOCTOR}
-              width="20px"
-              height="20px"
-              color="inherit"
-            />
-          ),
-        },
-        {
-          name: "Staff List",
-          layout: `/${roleName}`,
-          path: "/staff/list",
-          icon: (
-            <Icon
-              as={IconConstantType.FA_HOSPITAL_USER}
-              width="20px"
-              height="20px"
-              color="inherit"
-            />
-          ),
-        },
+        ...(doctorPermissions && doctorPermissions?.read_permission
+          ? [
+              {
+                name: "Doctor List",
+                layout: `/${roleName}`,
+                path: "/doctor/list",
+                icon: (
+                  <Icon
+                    as={IconConstantType.FA_USER_DOCTOR}
+                    width="20px"
+                    height="20px"
+                    color="inherit"
+                  />
+                ),
+              },
+            ]
+          : []),
+        ...(staffPermissions && staffPermissions?.read_permission
+          ? [
+              {
+                name: "Staff List",
+                layout: `/${roleName}`,
+                path: "/staff/list",
+                icon: (
+                  <Icon
+                    as={IconConstantType.FA_HOSPITAL_USER}
+                    width="20px"
+                    height="20px"
+                    color="inherit"
+                  />
+                ),
+              },
+            ]
+          : []),
         {
           name: "Create User",
           layout: `/${roleName}`,
@@ -284,10 +299,74 @@ const getLayout = (roleName, loggedInUser, permissions) => {
       : []),
   ];
 
+  const doctorRoutes = [
+    {
+      name: "Users Management",
+      icon: (
+        <Icon
+          as={IconConstantType.FA_USERS_COG}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
+      ),
+      children: [
+        ...(staffPermissions && staffPermissions?.read_permission
+          ? [
+              {
+                name: "Staff List",
+                layout: `/${roleName}`,
+                path: "/staff/list",
+                icon: (
+                  <Icon
+                    as={IconConstantType.FA_HOSPITAL_USER}
+                    width="20px"
+                    height="20px"
+                    color="inherit"
+                  />
+                ),
+              },
+            ]
+          : []),
+        // {
+        //   name: "Create User",
+        //   layout: `/${roleName}`,
+        //   path: "/create-users",
+        //   icon: (
+        //     <Icon
+        //       as={IconConstantType.MD_PERSON_ADD}
+        //       width="20px"
+        //       height="20px"
+        //       color="inherit"
+        //     />
+        //   ),
+        // },
+      ],
+    },
+    ...(userPermissions && userPermissions?.create_permission
+      ? [
+          {
+            name: "User Permissions",
+            layout: `/${roleName}`,
+            path: "/permissions",
+            icon: (
+              <Icon
+                as={IconConstantType.MD_PRIVACY_TIP}
+                width="20px"
+                height="20px"
+                color="inherit"
+              />
+            ),
+          },
+        ]
+      : []),
+  ];
+
   return [
     ...commonRoutes,
     ...(roleName === "Superadmin" ? superAdminRoutes : []),
     ...(roleName === "Admin" ? adminRoutes : []),
+    ...(roleName === "doctor" ? doctorRoutes : []),
   ];
 };
 
