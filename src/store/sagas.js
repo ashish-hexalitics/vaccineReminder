@@ -4,7 +4,7 @@ import watchCreateUser from './userConfigure/userConfigSaga';
 import watchVaccineTemplateSaga from "./vaccineTemplates/vaccineTemplateActionSaga";
 import watchUserRolesSaga from "./userRoles/userRolesSaga";
 import watchModulesSaga from "./modules/modulesSaga";
-
+import watchPermissionSaga from "./permissions/permissionsSaga";
 
 function* rootSaga() {
   yield all([
@@ -12,7 +12,8 @@ function* rootSaga() {
     watchCreateUser(),
     watchVaccineTemplateSaga(),
     watchUserRolesSaga(),
-    watchModulesSaga()
+    watchModulesSaga(),
+    watchPermissionSaga()
     // add other sagas here
   ]);
 }

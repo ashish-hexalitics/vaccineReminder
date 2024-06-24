@@ -90,12 +90,12 @@ function FormTable({
                 borderColor={borderColor}
               >
                 <Td color={textColor} borderColor={borderColor}>
-                  {module.name}
+                  {module.module_name}
                 </Td>
-                {renderCheckbox(module, "create")}
-                {renderCheckbox(module, "delete")}
-                {renderCheckbox(module, "update")}
-                {renderCheckbox(module, "read")}
+                {renderCheckbox(module, "create_permission")}
+                {renderCheckbox(module, "delete_permission")}
+                {renderCheckbox(module, "update_permission")}
+                {renderCheckbox(module, "read_permission")}
               </Tr>
             ))}
           </Tbody>

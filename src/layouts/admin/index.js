@@ -10,6 +10,7 @@ import { Route } from "react-router-dom";
 import { getLayout } from "../../routes";
 
 import { AppContext } from "../../contexts/AppContext";
+import { useSelector } from "react-redux";
 
 // Custom Chakra theme
 export default function DashboardLayout(props) {
@@ -19,6 +20,10 @@ export default function DashboardLayout(props) {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const [sidebarVisibility, setSidebarVisibility] = useState(false);
   const { fetchUserData, loggedInUser } = useContext(AppContext);
+
+  const { userPermissions } = useSelector((state) => {
+    return { userPermissions: state.authReducer?.user?.permissions };
+  });
 
   const authUser = localStorage.getItem("authUser");
 
@@ -129,7 +134,8 @@ export default function DashboardLayout(props) {
   const { onOpen } = useDisclosure();
   document.documentElement.dir = "ltr";
 
-  const renderAdminLayout = loggedInUser && getLayout(loggedInUser?.role_name);
+  const renderAdminLayout =
+    loggedInUser && getLayout(loggedInUser?.role_name,loggedInUser, userPermissions);
   return (
     <Box>
       {loggedInUser && (

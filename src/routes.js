@@ -97,7 +97,11 @@ const routes = [
   // },
 ];
 
-const getLayout = (roleName) => {
+const getLayout = (roleName, loggedInUser, permissions) => {
+
+  const userPermissions = permissions.find(
+    (permission) => permission?.module_name === "user permissions"
+  );
   const commonRoutes = [
     {
       name: "Dashboard",
@@ -261,19 +265,23 @@ const getLayout = (roleName) => {
         },
       ],
     },
-    {
-      name: "User Permissions",
-      layout: `/${roleName}`,
-      path: "/permissions",
-      icon: (
-        <Icon
-          as={IconConstantType.MD_PRIVACY_TIP}
-          width="20px"
-          height="20px"
-          color="inherit"
-        />
-      ),
-    },
+    ...(userPermissions && userPermissions?.create_permission
+      ? [
+          {
+            name: "User Permissions",
+            layout: `/${roleName}`,
+            path: "/permissions",
+            icon: (
+              <Icon
+                as={IconConstantType.MD_PRIVACY_TIP}
+                width="20px"
+                height="20px"
+                color="inherit"
+              />
+            ),
+          },
+        ]
+      : []),
   ];
 
   return [

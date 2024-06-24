@@ -4,6 +4,8 @@ import configUserReducer from "./userConfigure/configUserReducer";
 import vaccineTemplateReducer from "./vaccineTemplates/vaccineTemplateReducer";
 import roleReducer from "./userRoles/roleReducer";
 import modulesReducer from "./modules/modulesReducer";
+import permissionsReducer from "./permissions/permissionsReducer";
+
 
 const rootReducer = combineReducers({
   authReducer,
@@ -11,6 +13,7 @@ const rootReducer = combineReducers({
   vaccineTemplateReducer,
   roleReducer,
   modulesReducer,
+  permissionsReducer
 });
 
 export default rootReducer;

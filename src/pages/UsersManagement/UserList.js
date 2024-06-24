@@ -51,7 +51,7 @@ export default function UserList() {
   });
 
   useEffect(() => {
-    dispatch(getUserList(params?.userRole,params?.roleName));
+    dispatch(getUserList(params?.moduleName,params?.roleName));
 //     if(params?.roleName==="Superadmin") {
 //     }else if(params?.roleName==="Admin"){
 // // getAllUserApi
@@ -60,7 +60,7 @@ export default function UserList() {
       console.log("Resetting user details");
       dispatch(resetUserDetail());
     };
-  }, [dispatch, params?.userRole]);
+  }, [dispatch, params?.moduleName]);
   
   const handleActions = (data, actionType) => {
     if (actionType === "EDIT") {
@@ -76,7 +76,7 @@ export default function UserList() {
 
   const handleConfirm = () => {
     if (selectedUserId) {
-      dispatch(deleteUser(selectedUserId,params?.userRole)); // Dispatch the deleteUser action
+      dispatch(deleteUser(selectedUserId,params?.moduleName)); // Dispatch the deleteUser action
       console.log("Confirmed!");
       onClose();
     }
