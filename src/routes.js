@@ -33,6 +33,7 @@ import ViewUser from "./pages/UsersManagement/ViewUser";
 import DoctorList from "./pages/DoctorManagement/DoctorList";
 import StaffList from "./pages/StaffManagement/StaffList";
 import Permissions from "./pages/PermissionsManagement/Permissions";
+import NotificationList from "./pages/NotificationsManagement/NotificationList";
 
 import Home from "./views/Landing";
 
@@ -217,6 +218,46 @@ const getLayout = (roleName, loggedInUser, permissions) => {
         />
       ),
     },
+    {
+      name: "Notifications",
+      layout: `/${roleName}`,
+      path: "/notifications",
+      icon: (
+        <Icon
+          as={IconConstantType.MD_NOTIFICATIONS_ADD}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
+      ),
+    },
+    // {
+    //   name: "NFT Marketplace",
+    //   layout: "/admin",
+    //   path: "/nft-marketplace",
+    //   icon: (
+    //     <Icon
+    //       as={IconConstantType.MdMenu}
+    //       width="20px"
+    //       height="20px"
+    //       color="inherit"
+    //     />
+    //   ),
+    //   secondary: true,
+    // },
+    // {
+    //   name: "RTL Admin",
+    //   layout: "/rtl",
+    //   path: "/rtl-default",
+    //   icon: (
+    //     <Icon
+    //       as={IconConstantType.MdMenu}
+    //       width="20px"
+    //       height="20px"
+    //       color="inherit"
+    //     />
+    //   ),
+    // },
   ];
 
   const adminRoutes = [
@@ -370,39 +411,6 @@ const getLayout = (roleName, loggedInUser, permissions) => {
   ];
 };
 
-// {
-//   name: "NFT Marketplace",
-//   layout: "/admin",
-//   path: "/nft-marketplace",
-//   icon: (
-//     <Icon
-//       as={MdOutlineShoppingCart}
-//       width="20px"
-//       height="20px"
-//       color="inherit"
-//     />
-//   ),
-//   secondary: true,
-// },
-// {
-//   name: "Profile",
-//   layout: "/admin",
-//   path: "/profile",
-//   icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-// },
-// {
-//   name: "Sign In",
-//   layout: "/auth",
-//   path: "/sign-in",
-//   icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-// },
-// {
-//   name: "RTL Admin",
-//   layout: "/rtl",
-//   path: "/rtl-default",
-//   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-// },
-
 const Authmiddleware = (props) => {
   if (!localStorage.getItem("authUser")) {
     return (
@@ -465,6 +473,10 @@ const authProtectedRoutes = [
   {
     path: "/:roleName/permissions",
     component: <Permissions />,
+  },
+  {
+    path: "/:roleName/notifications",
+    component: <NotificationList />,
   },
   {
     path: "/:roleName/nft-marketplace",

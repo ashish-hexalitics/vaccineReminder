@@ -1,5 +1,6 @@
 import {
   GET_PERMISSIONS_SUCCESS,
+  GET_MY_PERMISSIONS_SUCCESS,
   PERMISSIONS_API_FAIL,
   RESET_PERMISSIONS,
   UPDATE_PERMISSIONS_LOADER,
@@ -8,6 +9,7 @@ import {
 
 const initialState = {
   permissions: [],
+  myPermissions: [],
   permissionDetails: {},
   error: {},
   loader: false,
@@ -19,6 +21,11 @@ const permissionReducer = (state = initialState, action) => {
       return {
         ...state,
         permissions: [...state.permissions, ...action.payload],
+      };
+      case GET_MY_PERMISSIONS_SUCCESS:
+      return {
+        ...state,
+        myPermissions: [...state.myPermissions, ...action.payload],
       };
     case UPDATE_PERMISSIONS_SUCCESS:
       console.log(action.payload)
@@ -39,6 +46,7 @@ const permissionReducer = (state = initialState, action) => {
     case RESET_PERMISSIONS:
       return {
         permissions: [],
+        myPermissions: [],
         permissionDetails: {},
         error: {},
         loader: false,

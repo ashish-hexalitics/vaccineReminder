@@ -3,9 +3,10 @@ import MiniStatistics from "../../components/card/MiniStatistics";
 import IconBox from "../../components/icons/IconBox";
 import { IconConstantType } from "../../constants/iconConstant";
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MdBarChart } from "react-icons/md";
 import { getDashboard } from "../../helpers/api/dashboardApi";
+// import { getMyPermissions } from "../../store/permissions/permissionsAction";
 import AppLoader from "../../components/AppLoader";
 import { useParams } from "react-router-dom";
 
@@ -15,12 +16,17 @@ const UserDashboard = () => {
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
   const params = useParams();
-  const { loggedInUser } = useSelector((state) => {
-    return { loggedInUser: state.authReducer.user };
+  // const dispatch = useDispatch();
+  const { loggedInUser, myPermissions } = useSelector((state) => {
+    return {
+      loggedInUser: state.authReducer.user,
+      // myPermissions: state.permissionsReducer.myPermissions,
+    };
   });
 
   useEffect(() => {
     if (loggedInUser) {
+      // params.roleName !== "Superadmin" && dispatch(getMyPermissions());
       getDashboard(loggedInUser.id).then((res) => {
         setdashboard(res.response_data);
       });

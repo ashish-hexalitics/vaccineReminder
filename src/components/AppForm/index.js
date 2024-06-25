@@ -51,16 +51,18 @@ function AppForm({
             <Form>
               {formType === "normal" && (
                 <Grid
-                  templateColumns={{
-                    base: "repeat(1, 1fr)",
-                    sm: "repeat(2, 1fr)",
-                    lg: "repeat(3, 1fr)",
-                  }}
+                  // templateColumns={{
+                  //   base: "repeat(1, 1fr)",
+                  //   sm: "repeat(2, 1fr)",
+                  //   lg: "repeat(3, 1fr)",
+                  // }}
+                  templateRows="repeat(1, 1fr)"
+                  templateColumns="repeat(3, 1fr)"
                   columnGap={2}
                   px="25px"
                 >
                   {formFields.map((field, index) => (
-                    <GridItem key={index}>
+                    <GridItem colSpan={field?.colSpan?field?.rowSpan:1} rowSpan={field?.rowSpan?field?.rowSpan:1} key={index}>
                       {renderInputs(field, formik)}
                     </GridItem>
                   ))}

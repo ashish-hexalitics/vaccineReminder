@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-// Chakra imports
 import { Box, SimpleGrid, useDisclosure } from "@chakra-ui/react";
 import AppTable from "../../components/AppTable";
 import AppLoader from "../../components/AppLoader";
 import { useParams, useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../../components/AppDialog";
-import {
-  getUserList,
-  resetUserDetail,
-  deleteUser,
-} from "../../store/userConfigure/userAction";
 import { useDispatch, useSelector } from "react-redux";
+import {
+//   getUserList,
+//   resetUserDetail,
+//   deleteUser,
+} from "../../store/userConfigure/userAction";
 
 const columns = [
   {
@@ -24,7 +23,7 @@ const columns = [
     label: "Email",
   },
   {
-    Header: "DEFAULT",
+    Header: "MOBILE NUMBER",
     accessor: "mobile_number",
     label: "Mobile Number",
   },
@@ -35,52 +34,46 @@ const columns = [
   },
 ];
 
-export default function UserList() {
-  const params = useParams();
-  const navigate = useNavigate();
+function NotificationList() {
+  const [dynamicList, setDynamicList] = useState([]);
+  const [loader, setLoader] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedUserId, setSelectedUserId] = useState(null);
+  const { id } = useParams(); // Assuming you'll need this for some operation
 
-  const { dynamicList, loader } = useSelector((state) => {
-    return {
-      dynamicList: state.configUserReducer.dynamicList,
-      loggedInUser: state.authReducer.user,
-      loader: state.configUserReducer.loader,
-    };
-  });
+//   const { userList } = useSelector((state) => state.userConfigure); // Adjust based on your Redux state
 
   useEffect(() => {
-    console.log(params)
-    dispatch(getUserList(params?.userRole,params?.roleName));
-//     if(params?.roleName==="Superadmin") {
-//     }else if(params?.roleName==="Admin"){
-// // getAllUserApi
+    // dispatch(getUserList());
+  }, [dispatch]);
+
+//   useEffect(() => {
+//     if (userList) {
+//       setDynamicList(userList);
+//       setLoader(false);
 //     }
-    return () => {
-      console.log("Resetting user details");
-      dispatch(resetUserDetail());
-    };
-  }, [dispatch, params?.userRole]);
-  
-  const handleActions = (data, actionType) => {
-    if (actionType === "EDIT") {
-      navigate(`/${params.roleName}/edit/${params.userRole}/${data.id}`);
-    } else if (actionType === "VIEW") {
-      navigate(`/${params.roleName}/view/${params.userRole}/${data.id}`);
-    } else if (actionType === "DELETE") {
-      setSelectedUserId(data.id); // Set the selected user ID
-      onOpen();
+//   }, [userList]);
+
+  const handleActions = (row, action) => {
+    switch (action) {
+      case "VIEW":
+        navigate(`/user/view/${row.id}`);
+        break;
+      case "EDIT":
+        navigate(`/user/edit/${row.id}`);
+        break;
+      case "DELETE":
+        onOpen();
+        break;
+      default:
+        break;
     }
-    // Handle more action here
   };
 
   const handleConfirm = () => {
-    if (selectedUserId) {
-      dispatch(deleteUser(selectedUserId,params?.userRole)); // Dispatch the deleteUser action
-      console.log("Confirmed!");
-      onClose();
-    }
+    // dispatch(deleteUser(id));
+    onClose();
   };
 
   return (
@@ -97,7 +90,6 @@ export default function UserList() {
             onView={handleActions}
             onEdit={handleActions}
             onDelete={handleActions}
-            // onMore={handleMore}
             showAction={true}
           />
         ) : (
@@ -106,7 +98,7 @@ export default function UserList() {
         <ConfirmationDialog
           isOpen={isOpen}
           onClose={onClose}
-          title="Are you sure want to delete this user ?."
+          title="Are you sure want to delete this user?"
           body="Are you sure? You can't undo this action afterwards."
           confirmText="Yes"
           cancelText="No"
@@ -116,3 +108,5 @@ export default function UserList() {
     </Box>
   );
 }
+
+export default NotificationList;

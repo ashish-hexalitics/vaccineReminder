@@ -39,7 +39,7 @@ export default function AppTable(props) {
     tableTitle = "",
     isMenu = false,
     isAddButton = false,
-    handleAddButton="",
+    handleAddButton = "",
     onView,
     onEdit,
     onDelete,
@@ -217,14 +217,13 @@ export default function AppTable(props) {
                   } else if (cell.column.Header === "SN") {
                     data = (
                       <Text color={textColor} fontSize="sm" fontWeight="700">
-                        {rowIndex + 1}
+                        {rowIndex + 1 + pageIndex * pageSize}
                       </Text>
                     );
                   } else if (cell.column.Header === "STATUS") {
                     const cellProps = cell.render("Cell");
                     const value =
                       cellProps.props.cell.row.values[cell.column.id];
-                    console.log(value);
                     data = (
                       <Stack direction="row">
                         <Badge colorScheme={value === 1 ? "green" : "red"}>

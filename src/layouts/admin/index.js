@@ -8,9 +8,10 @@ import { SidebarContext } from "contexts/SidebarContext";
 import React, { useState, useEffect, useContext } from "react";
 import { Route } from "react-router-dom";
 import { getLayout } from "../../routes";
+import { getMyPermissions } from "../../store/permissions/permissionsAction";
 
 import { AppContext } from "../../contexts/AppContext";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Custom Chakra theme
 export default function DashboardLayout(props) {
@@ -20,12 +21,22 @@ export default function DashboardLayout(props) {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const [sidebarVisibility, setSidebarVisibility] = useState(false);
   const { fetchUserData, loggedInUser } = useContext(AppContext);
+  const dispatch = useDispatch();
 
-  const { userPermissions } = useSelector((state) => {
-    return { userPermissions: state.authReducer?.user?.permissions };
+  const {  myPermissions } = useSelector((state) => {
+    return {
+      // userPermissions: state.authReducer?.user?.permissions,
+      myPermissions: state.permissionsReducer.myPermissions,
+    };
   });
 
   const authUser = localStorage.getItem("authUser");
+
+  useEffect(() => {
+    if (loggedInUser?.role_name && loggedInUser.role_name !== "Superadmin") {
+      dispatch(getMyPermissions());
+    }
+  }, [loggedInUser?.role_name]);
 
   useEffect(() => {
     if (typeof authUser === "string") {
@@ -134,8 +145,11 @@ export default function DashboardLayout(props) {
   const { onOpen } = useDisclosure();
   document.documentElement.dir = "ltr";
 
+  // console.log(userPermissions, "loggedInUser", myPermissions);
+
   const renderAdminLayout =
-    loggedInUser && getLayout(loggedInUser?.role_name,loggedInUser, userPermissions);
+    loggedInUser &&
+    getLayout(loggedInUser?.role_name, loggedInUser, myPermissions);
   return (
     <Box>
       {loggedInUser && (

@@ -73,6 +73,7 @@ const CreateUser = () => {
           name: "",
           email: "",
           password: "",
+          roleId:""
         }}
         formFields={fields}
         handleFormSubmit={handleSubmit}

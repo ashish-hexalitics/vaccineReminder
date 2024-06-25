@@ -1,6 +1,8 @@
 import {
   GET_PERMISSIONS,
   GET_PERMISSIONS_SUCCESS,
+  GET_MY_PERMISSIONS,
+  GET_MY_PERMISSIONS_SUCCESS,
   RESET_PERMISSIONS,
   PERMISSIONS_API_FAIL,
   UPDATE_PERMISSIONS_LOADER,
@@ -17,6 +19,19 @@ const getPermissions = () => {
 const getPermissionsSuccess = (data) => {
   return {
     type: GET_PERMISSIONS_SUCCESS,
+    payload: data,
+  };
+};
+
+const getMyPermissions = () => {
+  return {
+    type: GET_MY_PERMISSIONS,
+  };
+};
+
+const getMyPermissionsSuccess = (data) => {
+  return {
+    type: GET_MY_PERMISSIONS_SUCCESS,
     payload: data,
   };
 };
@@ -58,6 +73,8 @@ const updatePermissionSuccess = (data) => {
 export {
   getPermissions,
   getPermissionsSuccess,
+  getMyPermissions,
+  getMyPermissionsSuccess,
   resetPermissions,
   permissionApiFail,
   updatePermissionLoader,

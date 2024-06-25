@@ -6,7 +6,9 @@ import {
   MdPersonAdd,
   MdAdminPanelSettings,
   MdPrivacyTip,
-  MdChevronLeft
+  MdChevronLeft,
+  MdNotifications,
+  MdNotificationAdd
 } from "react-icons/md";
 
 import { FaHospitalUser, FaUsersCog, FaChevronLeft } from "react-icons/fa";
@@ -24,4 +26,6 @@ export const IconConstantType = {
   FA_HOSPITAL_USER: FaHospitalUser,
   FA_USERS_COG: FaUsersCog,
   FA_USER_DOCTOR: FaUserDoctor,
+  MD_NOTIFICATIONS_ACTIVE: MdNotifications,
+  MD_NOTIFICATIONS_ADD: MdNotificationAdd,
 };

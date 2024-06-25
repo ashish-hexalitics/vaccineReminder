@@ -8,6 +8,7 @@ import AppEmail from "../AppEmail";
 import AppMultiSelect from "../AppMultiSelect";
 import AppMultiFieldsFields from "./AppMultiFieldsFields";
 import AppCheckBox from "../AppCheckBox";
+import { Grid, GridItem, Box } from "@chakra-ui/react";
 
 export const renderInputs = (field, formik) => {
   const commonProps = {
@@ -21,26 +22,62 @@ export const renderInputs = (field, formik) => {
     error: formik.errors[field.name],
   };
 
-  switch (field.type) {
-    case "text":
-      return <AppInput {...commonProps} />;
-    case "email":
-      return <AppEmail {...commonProps} />;
-    case "tel":
-      return <AppInputTel {...commonProps} />;
-    case "password":
-      return <AppPassword {...commonProps} />;
-    case "date":
-      return <AppDate {...commonProps} />;
-    case "select":
-      return <AppSelect {...commonProps} options={field.options} />;
-    case "multi-select":
-      return <AppMultiSelect {...commonProps} options={field.options} />;
-    case "multiFields":
-      return <AppMultiFieldsFields {...field} formik={formik} />;
+  const renderConditionFields = (field, formik) => {
+    if (field.isCondition) {
+      const selectedRole = formik.values["role_id"];
+      const role = formik.values["role_id"];
+      if (field.checkConditions.includes(role)) {
+        return (
+          <Grid
+            templateColumns="repeat(3, 1fr)"
+            gap={4}
+            // ml={4} // Adjust margin as needed for spacing
+          >
+            {field.conditionFields.map((conditionField, index) => (
+              <GridItem
+                key={index}
+                colSpan={conditionField.colSpan || 1}
+                rowSpan={conditionField.rowSpan || 1}
+              >
+                {renderInputs(conditionField, formik)}
+              </GridItem>
+            ))}
+          </Grid>
+        );
+      }
+    }
+    return null;
+  };
+
+  const fieldComponent = () => {
+    switch (field.type) {
+      case "text":
+        return <AppInput {...commonProps} />;
+      case "email":
+        return <AppEmail {...commonProps} />;
+      case "tel":
+        return <AppInputTel {...commonProps} />;
+      case "password":
+        return <AppPassword {...commonProps} />;
+      case "date":
+        return <AppDate {...commonProps} />;
+      case "select":
+        return (
+          <>
+            <AppSelect {...commonProps} options={field.options} />
+            {renderConditionFields(field, formik)}
+          </>
+        );
+      case "multi-select":
+        return <AppMultiSelect {...commonProps} options={field.options} />;
+      case "multiFields":
+        return <AppMultiFieldsFields {...field} formik={formik} />;
       case "checkbox":
         return <AppCheckBox {...field} formik={formik} />;
-    default:
-      return null;
-  }
+      default:
+        return null;
+    }
+  };
+
+  return <Box>{fieldComponent()}</Box>;
 };
