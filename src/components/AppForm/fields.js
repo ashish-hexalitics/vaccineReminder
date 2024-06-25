@@ -49,6 +49,43 @@ export const renderInputs = (field, formik) => {
     return null;
   };
 
+  const renderConditionFields2 = (field, formik) => {
+    if (field.isCondition && field.shoWhen) {
+      const values = formik.values.vaccineDetails[0];
+      const selectedTimePeriod = values.timePeriod;
+
+      const condition = field.shoWhen.find(
+        (cond) => cond.timePeriod === selectedTimePeriod
+      );
+
+      if (condition) {
+        const relevantConditionFields = field.conditionFields.filter(
+          (conditionField) => conditionField.name === selectedTimePeriod
+        );
+
+        return relevantConditionFields.map((conditionField, index) => {
+          return (
+            <GridItem
+              key={index}
+              colSpan={conditionField.colSpan || 1}
+              rowSpan={conditionField.rowSpan || 1}
+            >
+              {renderInputs(conditionField, formik)}
+            </GridItem>
+          );
+        });
+      }
+    }
+    return null;
+  };
+
+  // <Box  key={index} >{renderInputs(conditionField, formik)}</Box>;
+
+  //     <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+  //     <GridItem key={index} colSpan={conditionField.colSpan || 1} rowSpan={conditionField.rowSpan || 1}>
+  //     </GridItem>
+  // </Grid>
+
   const fieldComponent = () => {
     switch (field.type) {
       case "text":
@@ -65,13 +102,20 @@ export const renderInputs = (field, formik) => {
         return (
           <>
             <AppSelect {...commonProps} options={field.options} />
-            {renderConditionFields(field, formik)}
+            {!field.shoWhen && renderConditionFields(field, formik)}
+            {field.shoWhen && renderConditionFields2(field, formik)}
           </>
         );
       case "multi-select":
         return <AppMultiSelect {...commonProps} options={field.options} />;
       case "multiFields":
-        return <AppMultiFieldsFields {...field} formik={formik} />;
+        return (
+          <AppMultiFieldsFields
+            {...field}
+            formik={formik}
+            templateColumns={field.templateColumns}
+          />
+        );
       case "checkbox":
         return <AppCheckBox {...field} formik={formik} />;
       default:

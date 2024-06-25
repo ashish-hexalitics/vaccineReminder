@@ -62,29 +62,37 @@ function AppForm({
                   px="25px"
                 >
                   {formFields.map((field, index) => (
-                    <GridItem colSpan={field?.colSpan?field?.rowSpan:1} rowSpan={field?.rowSpan?field?.rowSpan:1} key={index}>
+                    <GridItem
+                      colSpan={field?.colSpan ? field?.rowSpan : 1}
+                      rowSpan={field?.rowSpan ? field?.rowSpan : 1}
+                      key={index}
+                    >
                       {renderInputs(field, formik)}
                     </GridItem>
                   ))}
                 </Grid>
               )}
-              {formType === "collapsible" && (
-                <Grid
-                  templateColumns={{
-                    base: "repeat(1, 1fr)",
-                    sm: "repeat(1, 1fr)",
-                    lg: "repeat(1, 1fr)",
-                  }}
-                  columnGap={2}
-                  px="25px"
-                >
-                  {formFields.map((field, index) => (
-                    <GridItem key={index}>
-                      {renderInputs(field, formik)}
-                    </GridItem>
-                  ))}
-                </Grid>
-              )}
+
+              {formType === "collapsible" &&
+                formFields.map((field, index) => {
+                  return (
+                    <Box
+                      px="25px"
+                      templateRows={"repeat(1, 1fr)"}
+                      templateColumns={"repeat(1, 1fr)"}
+                      rowGap={2}
+                    >
+                      <Box
+                        key={index}
+                        // colSpan={field?.colSpan ? field?.colSpan : 1}
+                        // rowSpan={field?.rowSpan ? field?.rowSpan : 1}
+                      >
+                      </Box>
+                        {renderInputs(field, formik)}
+                    </Box>
+                  );
+                })}
+
               <Flex px="25px" justify="flex-end" mb="20px" align="center">
                 {showCancel && (
                   <Button

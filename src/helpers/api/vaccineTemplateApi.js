@@ -1,4 +1,4 @@
-import { get } from "../api_helper";
+import { get, post } from "../api_helper";
 
 const getVaccineTemplates = async () => {
   try {
@@ -14,4 +14,7 @@ const getVaccineTemplates = async () => {
   }
 };
 
-export { getVaccineTemplates };
+const createVaccineTemplatesApi = (data) =>
+  post(`/vaccine/create_master_vaccine_template`, data);
+
+export { getVaccineTemplates, createVaccineTemplatesApi };

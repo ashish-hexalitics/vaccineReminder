@@ -24,6 +24,7 @@ const AppMultiSelect = ({ name, label, placeholder, value, onChange, onBlur, inv
         onBlur={onBlur}
         options={options}
         isMulti
+        mb="8px"
       />
       {invalid && <FormErrorMessage>{error}</FormErrorMessage>}
     </FormControl>

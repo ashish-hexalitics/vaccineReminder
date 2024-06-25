@@ -4,6 +4,8 @@ import {
   VACCINE_TEMPLATES_API_FAIL,
   UPDATE_VACCINE_TEMPLATES_LOADER,
   RESET_VACCINE_TEMPLATES,
+  CREATRE_VACCINE_TEMPLATES,
+  CREATRE_VACCINE_TEMPLATES_SUCCESS,
 } from "./actionType";
 
 const getVaccineTemplateList = () => {
@@ -33,6 +35,22 @@ const updateVaccineTemplateLoader = (loader) => {
   };
 };
 
+const createVaccineTemplateList = (data) => {
+  return {
+    type: CREATRE_VACCINE_TEMPLATES,
+    payload: {
+      data,
+    },
+  };
+};
+
+const createVaccineTemplateListSuccess = (data) => {
+  return {
+    type: CREATRE_VACCINE_TEMPLATES_SUCCESS,
+    payload: data,
+  };
+};
+
 const resetVaccineTemplateList = () => {
   return {
     type: RESET_VACCINE_TEMPLATES,
@@ -44,5 +62,7 @@ export {
   getVaccineTemplateListSuccess,
   vaccineTemplateApiFail,
   updateVaccineTemplateLoader,
-  resetVaccineTemplateList
+  resetVaccineTemplateList,
+  createVaccineTemplateList,
+  createVaccineTemplateListSuccess,
 };

@@ -3,9 +3,12 @@ import { Box } from "@chakra-ui/react";
 import { getAllRoles } from "../../helpers/api/userApi";
 import AppForm from "../../components/AppForm";
 import { formFields } from "./utils";
+import { createVaccineTemplateList } from "../../store/vaccineTemplates/vaccineTemplateAction";
+import { useDispatch } from "react-redux";
 
 const CreateVaccineTemplates = () => {
   const [roleData, setRoleData] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,7 +21,15 @@ const CreateVaccineTemplates = () => {
   }, []);
 
   const handleSubmit = (formikValues, formik) => {
-    console.log(formikValues, formik, "Submit");
+    const created_date = new Date().toISOString(); // Use the current date and time in ISO format
+    const payload = {
+        ...formikValues,
+        created_date,
+        ismulti: formikValues.vaccineDetails.length > 0,
+        vaccines: formikValues.vaccineDetails.length > 0 ? formikValues.vaccineDetails : formikValues.vaccineDetails[0],
+    };
+
+    dispatch(createVaccineTemplateList(payload));
   };
 
   const fields = formFields(roleData);
@@ -28,9 +39,7 @@ const CreateVaccineTemplates = () => {
       <AppForm
         formTitle="Create Vaccine Template"
         initialValues={{
-          name: "",
-          email: "",
-          vaccineDetails: [{ range: "", timePeriod: "", month: "", week: "", days: "", description: "" }],
+          vaccineDetails: [{ range: "", timePeriod: "", month: "", week: "", days: "", name: "", description: "",is_mandatory:0 }],
         }}
         formFields={fields}
         handleFormSubmit={handleSubmit}

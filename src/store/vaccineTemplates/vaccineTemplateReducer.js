@@ -3,6 +3,8 @@ import {
   VACCINE_TEMPLATES_API_FAIL,
   UPDATE_VACCINE_TEMPLATES_LOADER,
   RESET_VACCINE_TEMPLATES,
+  CREATRE_VACCINE_TEMPLATES,
+  CREATRE_VACCINE_TEMPLATES_SUCCESS,
 } from "./actionType";
 
 const initialState = {
@@ -23,6 +25,11 @@ const vaccineTemplateReducer = (state = initialState, action) => {
       return {
         ...state,
         error: { ...action.payload },
+      };
+    case CREATRE_VACCINE_TEMPLATES_SUCCESS:
+      return {
+        ...state,
+        vaccineTemplateDetails: { ...action.payload },
       };
     case UPDATE_VACCINE_TEMPLATES_LOADER:
       return {

@@ -34,6 +34,9 @@ import DoctorList from "./pages/DoctorManagement/DoctorList";
 import StaffList from "./pages/StaffManagement/StaffList";
 import Permissions from "./pages/PermissionsManagement/Permissions";
 import NotificationList from "./pages/NotificationsManagement/NotificationList";
+import EventList from "./pages/EventManagement/EventList";
+import CreateEvent from "./pages/EventManagement/CreateEvent";
+
 
 import Home from "./views/Landing";
 
@@ -219,6 +222,45 @@ const getLayout = (roleName, loggedInUser, permissions) => {
       ),
     },
     {
+      name: "Events",
+      icon: (
+        <Icon
+          as={IconConstantType.MD_EVENT_REPEAT}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
+      ),
+      children: [
+        {
+          name: "Event List",
+          layout: `/${roleName}`,
+          path: "/events/list",
+          icon: (
+            <Icon
+              as={IconConstantType.Md_Outline_Event}
+              width="20px"
+              height="20px"
+              color="inherit"
+            />
+          ),
+        },
+        {
+          name: "Create Event",
+          layout: `/${roleName}`,
+          path: "/create-event",
+          icon: (
+            <Icon
+              as={IconConstantType.MD_Outline_Event_Available}
+              width="20px"
+              height="20px"
+              color="inherit"
+            />
+          ),
+        },
+      ],
+    },
+    {
       name: "Notifications",
       layout: `/${roleName}`,
       path: "/notifications",
@@ -338,6 +380,19 @@ const getLayout = (roleName, loggedInUser, permissions) => {
           },
         ]
       : []),
+    {
+      name: "Events",
+      layout: `/${roleName}`,
+      path: "/events/list",
+      icon: (
+        <Icon
+          as={IconConstantType.MD_NOTIFICATIONS_ADD}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
+      ),
+    },
   ];
 
   const doctorRoutes = [
@@ -477,6 +532,14 @@ const authProtectedRoutes = [
   {
     path: "/:roleName/notifications",
     component: <NotificationList />,
+  },
+  {
+    path: "/:roleName/events/list",
+    component: <EventList />,
+  },
+  {
+    path: "/:roleName/create-event",
+    component: <CreateEvent />,
   },
   {
     path: "/:roleName/nft-marketplace",

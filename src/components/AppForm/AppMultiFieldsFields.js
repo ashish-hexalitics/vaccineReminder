@@ -11,7 +11,13 @@ import { FieldArray, useFormikContext } from "formik";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { renderInputs } from "./fields";
 
-const AppMultiFieldsFields = ({ name, fields, formik }) => {
+const AppMultiFieldsFields = ({
+  name,
+  fields,
+  formik,
+  formFields,
+  templateColumns = "repeat(3, 1fr)",
+}) => {
   const { values, setFieldValue } = useFormikContext();
   const fieldValues = values[name] || [];
 
@@ -28,40 +34,71 @@ const AppMultiFieldsFields = ({ name, fields, formik }) => {
       {({ remove }) => (
         <Box>
           {fieldValues.map((_, index) => (
-            <Grid
+            <Box
+              position={"relative"}
+              mb={"10px"}
+              backgroundColor={"#FAF5FF"}
+              sx={{ border: "1px solid #E6ECFA", borderRadius: "10px" }}
+              paddingX={"40px"}
+              paddingY={"20px"}
               key={index}
-              templateColumns="repeat(3, 1fr)"
-              columnGap={2}
-              alignItems="center"
             >
-              {fields.map((field, fieldIndex) => (
-                <GridItem colSpan={1} key={fieldIndex}>
-                  {renderInputs(
+              <Grid
+                key={index}
+                templateColumns={templateColumns}
+                columnGap={2}
+                // alignItems="center"
+                rowGap={2}
+              >
+                {/* {fields.map((field, fieldIndex) => (
+                  <GridItem
+                    colSpan={field?.colSpan ? field?.colSpan : 2}
+                    rowSpan={field?.rowSpan ? field?.rowSpan : 3}
+                    key={fieldIndex}
+                  >
+                    {renderInputs(
+                      { ...field, name: `${name}[${index}].${field.name}` },
+                      formik
+                    )}
+                  </GridItem>
+                ))} */}
+                {fields.map((field, fieldIndex) =>
+                  renderInputs(
                     { ...field, name: `${name}[${index}].${field.name}` },
                     formik
-                  )}
-                </GridItem>
-              ))}
-              <GridItem colSpan={1}>
+                  )
+                )}
+              </Grid>
+              <Box
+                position="absolute"
+                display={"flex"}
+                flexDirection={"column"}
+                right={0}
+                top={"50%"}
+                transform={"translate(50%,-50%)"}
+                colSpan={1}
+              >
+                <IconButton
+                  aria-label="Add Field"
+                  icon={<AddIcon />}
+                  colorScheme="blue"
+                  onClick={addFieldSet}
+                  // mt={4}
+                />
                 {index > 0 && (
                   <IconButton
                     aria-label="Remove field"
                     icon={<MinusIcon />}
                     onClick={() => remove(index)}
                     colorScheme="red"
+                    // outline="outline"
+                    // backgroundColor={"#FEB2B2"}
                     mt={4}
-                    me={2}
+                    // me={2}
                   />
                 )}
-                <IconButton
-                  aria-label="Add Field"
-                  icon={<AddIcon />}
-                  colorScheme="blue"
-                  onClick={addFieldSet}
-                  mt={4}
-                />
-              </GridItem>
-            </Grid>
+              </Box>
+            </Box>
           ))}
           {/* <Flex justifyContent="flex-end" mt={2}>
             <IconButton

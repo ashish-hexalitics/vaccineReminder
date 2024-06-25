@@ -40,10 +40,11 @@ const AppSelect = ({
         onBlur={onBlur}
         isDisabled={disabled}
         placeholder={placeholder}
-        sx={{ ...styles }}
+        sx={{ ...styles,borderRadius:"7px" }}
         fontSize={fontSize}
         variant="auth"
         size={size}
+        mb="8px"
         errorBorderColor="crimson"
       >
         {options.map((option, key) => (
