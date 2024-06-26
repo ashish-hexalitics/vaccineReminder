@@ -21,12 +21,17 @@ const AppCheckBox = ({
   const textColor = useColorModeValue("navy.700", "white");
   const errorColor = useColorModeValue("crimson", "pink.500");
 
+  const handleChange = (event) => {
+    const { checked } = event.target;
+    onChange(name, checked);
+  };
+
   return (
     <FormControl isInvalid={invalid} isRequired={isRequired}>
       <Checkbox
         name={name}
         isChecked={value}
-        onChange={onChange}
+        onChange={handleChange}
         onBlur={onBlur}
         isDisabled={isDisabled}
         colorScheme="brand" // Adjust color scheme as needed

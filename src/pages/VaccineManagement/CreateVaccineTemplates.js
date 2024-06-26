@@ -39,7 +39,17 @@ const CreateVaccineTemplates = () => {
       <AppForm
         formTitle="Create Vaccine Template"
         initialValues={{
-          vaccineDetails: [{ range: "", timePeriod: "", month: "", week: "", days: "", name: "", description: "",is_mandatory:0 }],
+          vaccineDetails: [
+            {
+              range: "",
+              timePeriod: "",
+              week: "",
+              days: "",
+              name: "",
+              description: "",
+              is_mandatory: 0
+            }
+          ]
         }}
         formFields={fields}
         handleFormSubmit={handleSubmit}

@@ -10,7 +10,7 @@ import AppMultiFieldsFields from "./AppMultiFieldsFields";
 import AppCheckBox from "../AppCheckBox";
 import { Grid, GridItem, Box } from "@chakra-ui/react";
 
-export const renderInputs = (field, formik) => {
+export const renderInputs = (field, formik, parentIndex = 0) => {
   const commonProps = {
     name: field.name,
     label: field.label,
@@ -20,38 +20,12 @@ export const renderInputs = (field, formik) => {
     onBlur: formik.handleBlur,
     invalid: formik.touched[field.name] && formik.errors[field.name],
     error: formik.errors[field.name],
+    isExternal: field.isExternal
   };
 
-  const renderConditionFields = (field, formik) => {
-    if (field.isCondition) {
-      const selectedRole = formik.values["role_id"];
-      const role = formik.values["role_id"];
-      if (field.checkConditions.includes(role)) {
-        return (
-          <Grid
-            templateColumns="repeat(3, 1fr)"
-            gap={4}
-            // ml={4} // Adjust margin as needed for spacing
-          >
-            {field.conditionFields.map((conditionField, index) => (
-              <GridItem
-                key={index}
-                colSpan={conditionField.colSpan || 1}
-                rowSpan={conditionField.rowSpan || 1}
-              >
-                {renderInputs(conditionField, formik)}
-              </GridItem>
-            ))}
-          </Grid>
-        );
-      }
-    }
-    return null;
-  };
-
-  const renderConditionFields2 = (field, formik) => {
+  const renderConditionFields = (field, formik, parentIndex = 0) => {
     if (field.isCondition && field.shoWhen) {
-      const values = formik.values.vaccineDetails[0];
+      const values = formik.values.vaccineDetails[parentIndex];
       const selectedTimePeriod = values.timePeriod;
 
       const condition = field.shoWhen.find(
@@ -63,28 +37,26 @@ export const renderInputs = (field, formik) => {
           (conditionField) => conditionField.name === selectedTimePeriod
         );
 
-        return relevantConditionFields.map((conditionField, index) => {
-          return (
-            <GridItem
-              key={index}
-              colSpan={conditionField.colSpan || 1}
-              rowSpan={conditionField.rowSpan || 1}
-            >
-              {renderInputs(conditionField, formik)}
-            </GridItem>
-          );
-        });
+        return relevantConditionFields.map((conditionField, index) => (
+          <GridItem
+            key={index}
+            colSpan={conditionField.colSpan || 1}
+            rowSpan={conditionField.rowSpan || 1}
+          >
+            {renderInputs(
+              {
+                ...conditionField,
+                name: `vaccineDetails[${parentIndex}].${conditionField.name}`
+              },
+              formik,
+              parentIndex
+            )}
+          </GridItem>
+        ));
       }
     }
     return null;
   };
-
-  // <Box  key={index} >{renderInputs(conditionField, formik)}</Box>;
-
-  //     <Grid templateColumns="repeat(3, 1fr)" gap={4}>
-  //     <GridItem key={index} colSpan={conditionField.colSpan || 1} rowSpan={conditionField.rowSpan || 1}>
-  //     </GridItem>
-  // </Grid>
 
   const fieldComponent = () => {
     switch (field.type) {
@@ -102,8 +74,7 @@ export const renderInputs = (field, formik) => {
         return (
           <>
             <AppSelect {...commonProps} options={field.options} />
-            {!field.shoWhen && renderConditionFields(field, formik)}
-            {field.shoWhen && renderConditionFields2(field, formik)}
+            {renderConditionFields(field, formik, parentIndex)}
           </>
         );
       case "multi-select":
@@ -114,10 +85,11 @@ export const renderInputs = (field, formik) => {
             {...field}
             formik={formik}
             templateColumns={field.templateColumns}
+            parentIndex={parentIndex}
           />
         );
       case "checkbox":
-        return <AppCheckBox {...field} formik={formik} />;
+        return <AppCheckBox {...commonProps} />;
       default:
         return null;
     }
@@ -125,3 +97,4 @@ export const renderInputs = (field, formik) => {
 
   return <Box>{fieldComponent()}</Box>;
 };
+
