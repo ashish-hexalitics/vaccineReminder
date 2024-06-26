@@ -17,4 +17,11 @@ const getVaccineTemplates = async () => {
 const createVaccineTemplatesApi = (data) =>
   post(`/vaccine/create_master_vaccine_template`, data);
 
-export { getVaccineTemplates, createVaccineTemplatesApi };
+const deleteVaccineTemplatesApi = (vaccineId) =>
+  post(`/vaccine/delete_master_vaccine`, { vaccineId });
+
+export {
+  getVaccineTemplates,
+  createVaccineTemplatesApi,
+  deleteVaccineTemplatesApi,
+};

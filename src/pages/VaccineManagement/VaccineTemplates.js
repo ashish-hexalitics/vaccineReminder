@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 // Chakra imports
-import { Box, SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid, useDisclosure } from "@chakra-ui/react";
 import AppTable from "../../components/AppTable";
 import AppLoader from "../../components/AppLoader";
 import {
   getVaccineTemplateList,
   resetVaccineTemplateList,
+  deleteVaccineTemplate
 } from "../../store/vaccineTemplates/vaccineTemplateAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import ConfirmationDialog from "../../components/AppDialog";
 
 const columns = [
   {
@@ -16,16 +18,6 @@ const columns = [
     accessor: "name",
     label: "NAME",
   },
-  // {
-  //   Header: "VACCINE FREQUENCY",
-  //   accessor: "vaccine_frequency",
-  //   label: "VACCINE FREQUENCY",
-  // },
-  // {
-  //   Header: "VERSION NUMBER",
-  //   accessor: "version_number",
-  //   label: "VERSION NUMBER",
-  // },
   {
     Header: "IS MANDATORY",
     accessor: "is_mandatory",
@@ -47,6 +39,8 @@ export default function VaccineTemplateList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   const { vaccineTemplateReducer } = useSelector((state) => {
     return {
@@ -83,6 +77,26 @@ export default function VaccineTemplateList() {
     navigate(`/${params.roleName}/create/vaccine-template`);
   };
 
+  const handleActions = (data, actionType) => {
+    if (actionType === "EDIT") {
+      // navigate(`/${params.roleName}/edit/${params.userRole}/${data.id}`);
+    } else if (actionType === "VIEW") {
+      // navigate(`/${params.roleName}/view/${params.userRole}/${data.id}`);
+    } else if (actionType === "DELETE") {
+      setSelectedUserId(data.id); // Set the selected user ID
+      onOpen();
+    }
+    // Handle more action here
+  };
+
+  const handleConfirm = () => {
+    if (selectedUserId) {
+      dispatch(deleteVaccineTemplate(selectedUserId));
+      console.log("Confirmed!");
+      onClose();
+    }
+  };
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid
@@ -96,10 +110,21 @@ export default function VaccineTemplateList() {
             tableData={vaccineTemplates}
             isAddButton={true}
             handleAddButton={handleAddButton}
+            showAction={true}
+            onDelete={handleActions}
           />
         ) : (
           <AppLoader />
         )}
+        <ConfirmationDialog
+          isOpen={isOpen}
+          onClose={onClose}
+          title="Are you sure want to delete this vaccine ?."
+          body="Are you sure? You can't undo this action afterwards."
+          confirmText="Yes"
+          cancelText="No"
+          onConfirm={handleConfirm}
+        />
       </SimpleGrid>
     </Box>
   );
