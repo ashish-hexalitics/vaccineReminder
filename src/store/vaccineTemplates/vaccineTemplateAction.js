@@ -35,11 +35,12 @@ const updateVaccineTemplateLoader = (loader) => {
   };
 };
 
-const createVaccineTemplateList = (data) => {
+const createVaccineTemplateList = (data,history) => {
   return {
     type: CREATRE_VACCINE_TEMPLATES,
     payload: {
       data,
+      history
     },
   };
 };

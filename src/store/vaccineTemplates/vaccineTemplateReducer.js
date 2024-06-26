@@ -29,7 +29,7 @@ const vaccineTemplateReducer = (state = initialState, action) => {
     case CREATRE_VACCINE_TEMPLATES_SUCCESS:
       return {
         ...state,
-        vaccineTemplateDetails: { ...action.payload },
+        vaccineTemplates: [...state.vaccineTemplates,...action.payload],
       };
     case UPDATE_VACCINE_TEMPLATES_LOADER:
       return {

@@ -4,6 +4,7 @@ import {
   getVaccineTemplateListSuccess,
   vaccineTemplateApiFail,
   updateVaccineTemplateLoader,
+  createVaccineTemplateListSuccess,
 } from "./vaccineTemplateAction";
 import {
   getVaccineTemplates,
@@ -25,12 +26,15 @@ function* fetchVaccineTemplates() {
   }
 }
 
-function* createVaccineTemplates({payload:{data}}) {
+function* createVaccineTemplates({ payload: { data, history } }) {
   yield put(updateVaccineTemplateLoader(true));
   try {
-    const response = yield call(createVaccineTemplatesApi,data);
+    const response = yield call(createVaccineTemplatesApi, data);
     toastr.success(response.message);
-    yield put(getVaccineTemplateListSuccess(response.response_data));
+    yield put(createVaccineTemplateListSuccess(data?.vaccines));
+    setTimeout(() => {
+      history(-1);
+    }, 1000);
   } catch (error) {
     yield put(vaccineTemplateApiFail(error));
     toastr.error(error.response.data.message);
