@@ -13,6 +13,7 @@ import {
   MdOutlineEventAvailable,
   MdOutlineEvent
 } from "react-icons/md";
+import { IoIosRadioButtonOn } from "react-icons/io";
 
 import { FaHospitalUser, FaUsersCog, FaChevronLeft } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
@@ -33,5 +34,6 @@ export const IconConstantType = {
   MD_NOTIFICATIONS_ADD: MdNotificationAdd,
   MD_EVENT_REPEAT:MdEventRepeat,
   Md_Outline_Event:MdOutlineEvent,
-  MD_Outline_Event_Available:MdOutlineEventAvailable
+  MD_Outline_Event_Available:MdOutlineEventAvailable,
+  IoIosRadioButtonOn:IoIosRadioButtonOn
 };

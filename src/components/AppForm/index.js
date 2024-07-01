@@ -21,6 +21,7 @@ function AppForm({
   formTitle = "",
   showCancel = false,
   formType = "normal",
+  backButton = false,
 }) {
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const validationSchema = createValidationSchema(formFields);
@@ -39,6 +40,17 @@ function AppForm({
           >
             {formTitle}
           </Text>
+          {backButton && (
+            <Button
+              type="submit"
+              h="44px"
+              mb="10px"
+              variant="setup"
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </Button>
+          )}
         </Flex>
         <Formik
           initialValues={initialValues}
@@ -86,9 +98,8 @@ function AppForm({
                         key={index}
                         // colSpan={field?.colSpan ? field?.colSpan : 1}
                         // rowSpan={field?.rowSpan ? field?.rowSpan : 1}
-                      >
-                      </Box>
-                        {renderInputs(field, formik)}
+                      ></Box>
+                      {renderInputs(field, formik)}
                     </Box>
                   );
                 })}
@@ -105,7 +116,7 @@ function AppForm({
                     Cancel
                   </Button>
                 )}
-                <Button type="submit" h="44px" mb="10px" variant="brand">
+                <Button type="submit" h="44px" mb="10px" variant="setup">
                   Submit
                 </Button>
               </Flex>

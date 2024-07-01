@@ -158,8 +158,8 @@ export default function AppTable(props) {
           <Button
             h="44px"
             mb="10px"
-            variant="solid"
-            colorScheme="blue"
+            variant="outline"
+            // colorScheme="blue"
             onClick={handleAddButton}
           >
             ADD MORE

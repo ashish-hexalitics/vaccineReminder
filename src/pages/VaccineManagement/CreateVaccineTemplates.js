@@ -59,6 +59,7 @@ const CreateVaccineTemplates = () => {
         formFields={fields}
         handleFormSubmit={handleSubmit}
         formType="collapsible"
+        backButton={true}
       />
     </Box>
   );

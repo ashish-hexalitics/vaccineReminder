@@ -18,6 +18,7 @@ import NFTMarketplace from "./views/admin/marketplace";
 import Profile from "./views/admin/profile";
 // import DataTables from "./views/admin/dataTables";
 import RTL from "./views/admin/rtl";
+import ExampleButton from "./pages/ExampleButton";
 
 // Auth Imports
 // import SignInCentered from "./views/auth/signIn";
@@ -36,7 +37,6 @@ import Permissions from "./pages/PermissionsManagement/Permissions";
 import NotificationList from "./pages/NotificationsManagement/NotificationList";
 import EventList from "./pages/EventManagement/EventList";
 import CreateEvent from "./pages/EventManagement/CreateEvent";
-
 
 import Home from "./views/Landing";
 
@@ -300,6 +300,19 @@ const getLayout = (roleName, loggedInUser, permissions) => {
     //     />
     //   ),
     // },
+    {
+      name: "ExampleButton",
+      layout: `/${roleName}`,
+      path: "/example/button",
+      icon: (
+        <Icon
+          as={IconConstantType.IoIosRadioButtonOn}
+          width="20px"
+          height="20px"
+          color="inherit"
+        />
+      ),
+    },
   ];
 
   const adminRoutes = [
@@ -552,6 +565,10 @@ const authProtectedRoutes = [
   {
     path: "/rtl/rtl-default",
     component: <RTL />,
+  },
+  {
+    path: "/:roleName/example/button",
+    component: <ExampleButton />,
   },
 ];
 

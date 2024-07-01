@@ -19,21 +19,23 @@ export function SearchBar(props) {
     <InputGroup w={{ base: "100%", md: "200px" }} {...rest}>
       <InputLeftElement
         children={
-          <IconButton
-            bg='inherit'
-            borderRadius='inherit'
-            _hover='none'
-            _active={{
-              bg: "inherit",
-              transform: "none",
-              borderColor: "transparent",
-            }}
-            _focus={{
-              boxShadow: "none",
-            }}
-            icon={
-              <SearchIcon color={searchIconColor} w='15px' h='15px' />
-            }></IconButton>
+          // <IconButton
+          //   bg='inherit'
+          //   borderRadius='inherit'
+          //   _hover='none'
+          //   _active={{
+          //     bg: "inherit",
+          //     transform: "none",
+          //     borderColor: "transparent",
+          //   }}
+          //   _focus={{
+          //     boxShadow: "none",
+          //   }}
+          //   icon={
+          //     <SearchIcon color={searchIconColor} w='15px' h='15px' />
+          //   }></IconButton>
+                        <SearchIcon color={searchIconColor} w='15px' h='15px' />
+
         }
       />
       <Input

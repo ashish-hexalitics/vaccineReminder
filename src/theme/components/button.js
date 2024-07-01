@@ -1,54 +1,73 @@
 import { mode } from "@chakra-ui/theme-tools";
+
 export const buttonStyles = {
   components: {
     Button: {
       baseStyle: {
         borderRadius: "16px",
-        boxShadow: "45px 76px 113px 7px rgba(112, 144, 176, 0.08)",
-        transition: ".25s all ease",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+        transition: "all 0.3s ease",
         boxSizing: "border-box",
         _focus: {
-          boxShadow: "none",
+          boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
         },
         _active: {
-          boxShadow: "none",
+          transform: "scale(0.95)",
         },
       },
       variants: {
         outline: () => ({
           borderRadius: "16px",
+          border: "2px solid",
+          borderColor: "brand.500",
+          color: "brand.500",
+          _hover: {
+            bg: "brand.100",
+          },
         }),
         brand: (props) => ({
-          bg: mode("brand.500", "brand.400")(props),
+          bg: mode(
+            "linear-gradient(135deg, #E9E3FF 0%, #422AFB 50%, #728FEA 100%)",
+            "linear-gradient(135deg, #422AFB 0%, #728FEA 50%, #E9E3FF 100%)"
+          )(props),
           color: "white",
           _focus: {
-            bg: mode("brand.500", "brand.400")(props),
+            bg: mode(
+              "linear-gradient(135deg, #E9E3FF 0%, #422AFB 50%, #728FEA 100%)",
+              "linear-gradient(135deg, #422AFB 0%, #728FEA 50%, #E9E3FF 100%)"
+            )(props),
           },
           _active: {
-            bg: mode("brand.500", "brand.400")(props),
+            bg: mode(
+              "linear-gradient(135deg, #E9E3FF 0%, #422AFB 50%, #728FEA 100%)",
+              "linear-gradient(135deg, #422AFB 0%, #728FEA 50%, #E9E3FF 100%)"
+            )(props),
           },
           _hover: {
-            bg: mode("brand.600", "brand.400")(props),
+            bg: mode(
+              "linear-gradient(135deg, #D1C8FF 0%, #3129D9 50%, #6079E7 100%)",
+              "linear-gradient(135deg, #3129D9 0%, #6079E7 50%, #D1C8FF 100%)"
+            )(props),
           },
         }),
         darkBrand: (props) => ({
-          bg: mode("brand.900", "brand.400")(props),
+          bg: mode("linear-gradient(135deg, #360940 0%, #f05f57 100%)", "linear-gradient(135deg, #f05f57 0%, #360940 100%)")(props),
           color: "white",
           _focus: {
-            bg: mode("brand.900", "brand.400")(props),
+            bg: mode("linear-gradient(135deg, #360940 0%, #f05f57 100%)", "linear-gradient(135deg, #f05f57 0%, #360940 100%)")(props),
           },
           _active: {
-            bg: mode("brand.900", "brand.400")(props),
+            bg: mode("linear-gradient(135deg, #360940 0%, #f05f57 100%)", "linear-gradient(135deg, #f05f57 0%, #360940 100%)")(props),
           },
           _hover: {
-            bg: mode("brand.800", "brand.400")(props),
+            bg: mode("linear-gradient(135deg, #512b58 0%, #f05f57 100%)", "linear-gradient(135deg, #f05f57 0%, #512b58 100%)")(props),
           },
         }),
         lightBrand: (props) => ({
-          bg: mode("#F2EFFF", "whiteAlpha.100")(props),
+          bg: mode("linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)", "whiteAlpha.100")(props),
           color: mode("brand.500", "white")(props),
           _focus: {
-            bg: mode("#F2EFFF", "whiteAlpha.100")(props),
+            bg: mode("linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)", "whiteAlpha.100")(props),
           },
           _active: {
             bg: mode("secondaryGray.300", "whiteAlpha.100")(props),
@@ -58,16 +77,16 @@ export const buttonStyles = {
           },
         }),
         light: (props) => ({
-          bg: mode("secondaryGray.300", "whiteAlpha.100")(props),
+          bg: mode("linear-gradient(135deg, #f0f0f0 0%, #c4c4c4 100%)", "whiteAlpha.100")(props),
           color: mode("secondaryGray.900", "white")(props),
           _focus: {
-            bg: mode("secondaryGray.300", "whiteAlpha.100")(props),
+            bg: mode("linear-gradient(135deg, #f0f0f0 0%, #c4c4c4 100%)", "whiteAlpha.100")(props),
           },
           _active: {
-            bg: mode("secondaryGray.300", "whiteAlpha.100")(props),
+            bg: mode("linear-gradient(135deg, #e0e0e0 0%, #b4b4b4 100%)", "whiteAlpha.100")(props),
           },
           _hover: {
-            bg: mode("secondaryGray.400", "whiteAlpha.200")(props),
+            bg: mode("linear-gradient(135deg, #e0e0e0 0%, #b4b4b4 100%)", "whiteAlpha.200")(props),
           },
         }),
         action: (props) => ({
